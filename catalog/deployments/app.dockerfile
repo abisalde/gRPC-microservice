@@ -1,0 +1,42 @@
+# Build stage
+
+FROM golang:1.25-alpine AS builder
+
+# Set destination for COPY
+WORKDIR /app
+
+# Install git for go modules if private repos
+RUN apk add --no-cache git gcc musl-dev bash
+
+# Install air for hot reload
+RUN go install github.com/air-verse/air@latest
+
+# Download Go modules
+COPY go.mod ./
+RUN go mod download
+
+
+
+# Copy the entire project
+COPY catalog/ ./catalog/
+
+
+# Copy air config from air.toml
+COPY catalog/deployments/air.toml ./catalog/.air.toml
+
+
+
+# Set working directory to catalog service
+WORKDIR /app/catalog
+
+ENV AIR_WORKSPACE=/app/catalog \
+    ENVIRONMENT=development
+
+# Create directory for air builds
+RUN mkdir -p /app/catalog/tmp
+
+# Expose the port your server runs on
+EXPOSE 50052
+
+
+CMD ["air", "-c", "/app/catalog/.air.toml"]

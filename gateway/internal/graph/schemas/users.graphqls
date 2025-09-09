@@ -1,0 +1,30 @@
+"""
+Represents a user in the system.
+"""
+type User {
+	id: ID!
+	"User's primary email (must be unique)"
+	email: String!
+	firstName: String!
+	lastName: String!
+	createdAt: Time!
+	updatedAt: Time!
+	"USER or ADMIN"
+	role: UserRole!
+	isEmailVerified: Boolean!
+}
+
+"""
+UserRole maybe ADMIN or USER
+"""
+enum UserRole {
+	ADMIN
+	USER
+}
+
+extend type Query {
+	"""
+	The logged in user profile details
+	"""
+	profile: User! @auth(requires: USER)
+}

@@ -12,7 +12,7 @@ RUN apk add --no-cache git gcc musl-dev bash
 RUN go install github.com/air-verse/air@latest
 
 # Download Go modules
-COPY go.mod ./
+COPY go.mod go.sum ./
 RUN go mod download
 
 

@@ -1,0 +1,80 @@
+input RegisterInput {
+	email: String! @constraint(format: "email", maxLength: 60)
+	password: String! @constraint(format: "password", minLength: 8, maxLength: 50)
+}
+
+input LoginInput {
+	email: String! @constraint(format: "email", maxLength: 60)
+	password: String! @constraint(format: "password", minLength: 8, maxLength: 50)
+}
+
+type LoginResponse {
+	token: String!
+	userId: ID!
+	email: String!
+	refreshToken: String
+}
+
+type RefreshTokenResponse {
+	token: String!
+}
+
+input AccountVerification {
+	code: String! @constraint(minLength: 4, maxLength: 4)
+	email: String! @constraint(format: "email", maxLength: 60)
+}
+
+input ResendVerificationCode {
+	email: String! @constraint(format: "email", maxLength: 60)
+}
+
+type PublicUser {
+	id: ID!
+	email: String!
+	name: String
+}
+
+"""
+Registration & OAUTH
+"""
+type RegisterResponse {
+	user: PublicUser!
+	message: String!
+}
+
+"Rate Limit Methods enum"
+enum RateLimitMethods {
+	LOGIN
+	REGISTER
+	UPDATE_PROFILE
+	CHANGE_PASSWORD
+	VERIFY_ACCOUNT
+	RESEND_VERIFICATION_CODE
+	REFRESH_TOKEN
+}
+
+extend type Mutation {
+	"Register a user"
+	register(input: RegisterInput!): RegisterResponse!
+		@rateLimit(operation: "LOGIN", limit: 4, duration: 3600)
+
+	"Login with Email & Password"
+	login(input: LoginInput!): LoginResponse!
+		@rateLimit(operation: "REGISTER", limit: 5, duration: 3600)
+
+	logout: Boolean! @auth(requires: USER)
+
+	"Verify User Account"
+	verifyAccount(input: AccountVerification!): Boolean!
+		@rateLimit(operation: "VERIFY_ACCOUNT", limit: 3, duration: 3600)
+
+	"Request a New Verification Code"
+	resendVerificationCode(input: ResendVerificationCode!): Boolean!
+		@rateLimit(operation: "RESEND_VERIFICATION_CODE", limit: 5, duration: 3600)
+
+	"""
+	RefreshToken for Logged in User
+	"""
+	refreshToken(token: String!, userID: Int!): RefreshTokenResponse!
+		@rateLimit(operation: "REFRESH_TOKEN", limit: 3, duration: 43200)
+}

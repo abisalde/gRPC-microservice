@@ -69,7 +69,7 @@ services:
       dockerfile: auth/deployments/db.dockerfile
     environment:
       POSTGRES_USER: microservice-user
-      POSTGRES_PASSWORD: Password@123
+      POSTGRES_PASSWORD: Password123
       POSTGRES_DB: microservice
     ports:
       - '5432:5432'

@@ -6,6 +6,8 @@ import (
 	"log"
 	"net/http"
 	"time"
+
+	server "github.com/abisalde/gprc-microservice/auth/cmd"
 )
 
 type HealthResponse struct {
@@ -51,6 +53,13 @@ func healthHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+
+	db, err := server.SetupDatabase()
+	if err != nil {
+		log.Fatalf("❌ Failed to setup database: %v", err)
+	}
+	defer db.Close()
+
 	http.HandleFunc("/", helloHandler)
 	http.HandleFunc("/health", healthHandler)
 

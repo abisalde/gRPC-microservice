@@ -5,7 +5,10 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"time"
+
+	"github.com/99designs/gqlgen/graphql/playground"
 )
 
 type HealthResponse struct {
@@ -51,22 +54,40 @@ func healthHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/", helloHandler)
-	http.HandleFunc("/health", healthHandler)
 
-	server := &http.Server{
-		Addr:         ":8080",
-		ReadTimeout:  10 * time.Second,
-		WriteTimeout: 10 * time.Second,
-		IdleTimeout:  60 * time.Second,
-	}
+	// server := &http.Server{
+	// 	Addr:         ":8080",
+	// 	ReadTimeout:  10 * time.Second,
+	// 	WriteTimeout: 10 * time.Second,
+	// 	IdleTimeout:  60 * time.Second,
+	// }
 
 	log.Println("Authentication Service starting on :8080")
 	log.Println("Endpoints available:")
 	log.Println("  - http://localhost:8080/")
 	log.Println("  - http://localhost:8080/health")
 
-	if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-		log.Fatalf("Server failed to start: %v", err)
+	// s, err := server.NewGraphQLServer()
+
+	// 	authService := auth.NewService(authClient)
+
+	// // Configure GraphQL server
+	// srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{
+	// 	Resolvers: &graph.Resolver{
+	// 		AuthService: authService,
+	// 	},
+	// }))
+
+	http.HandleFunc("/health", healthHandler)
+
+	http.Handle("/", playground.ApolloSandboxHandler("GraphQL playground", "/query"))
+	// http.Handle("/query", srv)
+
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
 	}
+
+	log.Printf("🚀 Gateway server running on http://localhost:%s", port)
+	log.Fatal(http.ListenAndServe(":"+port, nil))
 }

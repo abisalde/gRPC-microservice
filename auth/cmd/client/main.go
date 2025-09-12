@@ -8,23 +8,6 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 )
 
-// type Server struct {
-// 	authClient *clients.AuthClient
-// }
-
-// func NewGraphQLServer() (*Server, error) {
-
-// 	authClient, err := clients.NewAuthClient("tcp:50051")
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	defer authClient.Close()
-
-// 	return &Server{
-// 		authClient: authClient,
-// 	}, nil
-// }
-
 type AuthClient struct {
 	conn       *grpc.ClientConn
 	userClient entpb.UserServiceClient
@@ -48,14 +31,15 @@ func (c *AuthClient) Close() error {
 	return c.conn.Close()
 }
 
-func (c *AuthClient) CreateUser(ctx context.Context, req *entpb.CreateUserRequest) (*entpb.User, error) {
-	return c.userClient.Create(ctx, req)
+func (c *AuthClient) GetUserByID(ctx context.Context, id int64) (*entpb.User, error) {
+	return c.userClient.Get(ctx, &entpb.GetUserRequest{Id: id})
 }
 
-func (c *AuthClient) GetUser(ctx context.Context, req *entpb.GetUserRequest) (*entpb.User, error) {
-	return c.userClient.Get(ctx, req)
+func (c *AuthClient) CreateUser(ctx context.Context, user *entpb.User) (*entpb.User, error) {
+	return c.userClient.Create(ctx, &entpb.CreateUserRequest{User: user})
 }
 
 func (c *AuthClient) GetUserByEmail(ctx context.Context, email string) (*entpb.User, error) {
+	// return c.userClient.Get(ctx, &entpb.GetUserRequest{})
 	return nil, nil
 }

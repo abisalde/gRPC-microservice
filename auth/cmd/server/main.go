@@ -18,7 +18,7 @@ type grpcServer struct {
 	service *service.UserService
 }
 
-func SetupDatabase() (*database.Database, error) {
+func setupDatabase() (*database.Database, error) {
 	db, err := database.Connect()
 	if err != nil {
 		return nil, err
@@ -38,7 +38,7 @@ func SetupDatabase() (*database.Database, error) {
 
 func main() {
 
-	db, err := SetupDatabase()
+	db, err := setupDatabase()
 	if err != nil {
 		log.Fatalf("❌ Failed to setup database: %v", err)
 	}

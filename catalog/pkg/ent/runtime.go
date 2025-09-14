@@ -2,8 +2,30 @@
 
 package ent
 
+import (
+	"time"
+
+	"github.com/abisalde/gprc-microservice/catalog/pkg/ent/catalog"
+	"github.com/abisalde/gprc-microservice/catalog/pkg/ent/schema"
+)
+
 // The init function reads all schema descriptors with runtime code
 // (default values, validators, hooks and policies) and stitches it
 // to their package variables.
 func init() {
+	catalogMixin := schema.Catalog{}.Mixin()
+	catalogMixinFields0 := catalogMixin[0].Fields()
+	_ = catalogMixinFields0
+	catalogFields := schema.Catalog{}.Fields()
+	_ = catalogFields
+	// catalogDescCreatedAt is the schema descriptor for created_at field.
+	catalogDescCreatedAt := catalogMixinFields0[0].Descriptor()
+	// catalog.DefaultCreatedAt holds the default value on creation for the created_at field.
+	catalog.DefaultCreatedAt = catalogDescCreatedAt.Default.(func() time.Time)
+	// catalogDescUpdatedAt is the schema descriptor for updated_at field.
+	catalogDescUpdatedAt := catalogMixinFields0[1].Descriptor()
+	// catalog.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	catalog.DefaultUpdatedAt = catalogDescUpdatedAt.Default.(func() time.Time)
+	// catalog.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	catalog.UpdateDefaultUpdatedAt = catalogDescUpdatedAt.UpdateDefault.(func() time.Time)
 }

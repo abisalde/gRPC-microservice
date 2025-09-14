@@ -12,6 +12,7 @@ import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 	reflect "reflect"
 	sync "sync"
@@ -125,7 +126,10 @@ func (ListCatalogRequest_View) EnumDescriptor() ([]byte, []int) {
 
 type Catalog struct {
 	state         protoimpl.MessageState  `protogen:"open.v1"`
-	Id            int64                   `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Id            []byte                  `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	CreatedAt     *timestamppb.Timestamp  `protobuf:"bytes,8,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt     *timestamppb.Timestamp  `protobuf:"bytes,9,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	DeletedAt     *timestamppb.Timestamp  `protobuf:"bytes,10,opt,name=deleted_at,json=deletedAt,proto3" json:"deleted_at,omitempty"`
 	Name          string                  `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	Description   *wrapperspb.StringValue `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
 	Price         float64                 `protobuf:"fixed64,4,opt,name=price,proto3" json:"price,omitempty"`
@@ -163,11 +167,32 @@ func (*Catalog) Descriptor() ([]byte, []int) {
 	return file_entpb_entpb_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *Catalog) GetId() int64 {
+func (x *Catalog) GetId() []byte {
 	if x != nil {
 		return x.Id
 	}
-	return 0
+	return nil
+}
+
+func (x *Catalog) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *Catalog) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return nil
+}
+
+func (x *Catalog) GetDeletedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.DeletedAt
+	}
+	return nil
 }
 
 func (x *Catalog) GetName() string {
@@ -237,7 +262,7 @@ func (x *CreateCatalogRequest) GetCatalog() *Catalog {
 
 type GetCatalogRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Id            []byte                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	View          GetCatalogRequest_View `protobuf:"varint,2,opt,name=view,proto3,enum=entpb.GetCatalogRequest_View" json:"view,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -273,11 +298,11 @@ func (*GetCatalogRequest) Descriptor() ([]byte, []int) {
 	return file_entpb_entpb_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *GetCatalogRequest) GetId() int64 {
+func (x *GetCatalogRequest) GetId() []byte {
 	if x != nil {
 		return x.Id
 	}
-	return 0
+	return nil
 }
 
 func (x *GetCatalogRequest) GetView() GetCatalogRequest_View {
@@ -333,7 +358,7 @@ func (x *UpdateCatalogRequest) GetCatalog() *Catalog {
 
 type DeleteCatalogRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Id            []byte                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -368,11 +393,11 @@ func (*DeleteCatalogRequest) Descriptor() ([]byte, []int) {
 	return file_entpb_entpb_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *DeleteCatalogRequest) GetId() int64 {
+func (x *DeleteCatalogRequest) GetId() []byte {
 	if x != nil {
 		return x.Id
 	}
-	return 0
+	return nil
 }
 
 type ListCatalogRequest struct {
@@ -579,16 +604,23 @@ var File_entpb_entpb_proto protoreflect.FileDescriptor
 
 const file_entpb_entpb_proto_rawDesc = "" +
 	"\n" +
-	"\x11entpb/entpb.proto\x12\x05entpb\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1egoogle/protobuf/wrappers.proto\"\x83\x01\n" +
+	"\x11entpb/entpb.proto\x12\x05entpb\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1egoogle/protobuf/wrappers.proto\"\xb4\x02\n" +
 	"\aCatalog\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
+	"\x02id\x18\x01 \x01(\fR\x02id\x129\n" +
+	"\n" +
+	"created_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"\n" +
+	"updated_at\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x129\n" +
+	"\n" +
+	"deleted_at\x18\n" +
+	" \x01(\v2\x1a.google.protobuf.TimestampR\tdeletedAt\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12>\n" +
 	"\vdescription\x18\x03 \x01(\v2\x1c.google.protobuf.StringValueR\vdescription\x12\x14\n" +
 	"\x05price\x18\x04 \x01(\x01R\x05price\"@\n" +
 	"\x14CreateCatalogRequest\x12(\n" +
 	"\acatalog\x18\x01 \x01(\v2\x0e.entpb.CatalogR\acatalog\"\x92\x01\n" +
 	"\x11GetCatalogRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x121\n" +
+	"\x02id\x18\x01 \x01(\fR\x02id\x121\n" +
 	"\x04view\x18\x02 \x01(\x0e2\x1d.entpb.GetCatalogRequest.ViewR\x04view\":\n" +
 	"\x04View\x12\x14\n" +
 	"\x10VIEW_UNSPECIFIED\x10\x00\x12\t\n" +
@@ -597,7 +629,7 @@ const file_entpb_entpb_proto_rawDesc = "" +
 	"\x14UpdateCatalogRequest\x12(\n" +
 	"\acatalog\x18\x01 \x01(\v2\x0e.entpb.CatalogR\acatalog\"&\n" +
 	"\x14DeleteCatalogRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\"\xc0\x01\n" +
+	"\x02id\x18\x01 \x01(\fR\x02id\"\xc0\x01\n" +
 	"\x12ListCatalogRequest\x12\x1b\n" +
 	"\tpage_size\x18\x01 \x01(\x05R\bpageSize\x12\x1d\n" +
 	"\n" +
@@ -648,35 +680,39 @@ var file_entpb_entpb_proto_goTypes = []any{
 	(*ListCatalogResponse)(nil),         // 8: entpb.ListCatalogResponse
 	(*BatchCreateCatalogsRequest)(nil),  // 9: entpb.BatchCreateCatalogsRequest
 	(*BatchCreateCatalogsResponse)(nil), // 10: entpb.BatchCreateCatalogsResponse
-	(*wrapperspb.StringValue)(nil),      // 11: google.protobuf.StringValue
-	(*emptypb.Empty)(nil),               // 12: google.protobuf.Empty
+	(*timestamppb.Timestamp)(nil),       // 11: google.protobuf.Timestamp
+	(*wrapperspb.StringValue)(nil),      // 12: google.protobuf.StringValue
+	(*emptypb.Empty)(nil),               // 13: google.protobuf.Empty
 }
 var file_entpb_entpb_proto_depIdxs = []int32{
-	11, // 0: entpb.Catalog.description:type_name -> google.protobuf.StringValue
-	2,  // 1: entpb.CreateCatalogRequest.catalog:type_name -> entpb.Catalog
-	0,  // 2: entpb.GetCatalogRequest.view:type_name -> entpb.GetCatalogRequest.View
-	2,  // 3: entpb.UpdateCatalogRequest.catalog:type_name -> entpb.Catalog
-	1,  // 4: entpb.ListCatalogRequest.view:type_name -> entpb.ListCatalogRequest.View
-	2,  // 5: entpb.ListCatalogResponse.catalog_list:type_name -> entpb.Catalog
-	3,  // 6: entpb.BatchCreateCatalogsRequest.requests:type_name -> entpb.CreateCatalogRequest
-	2,  // 7: entpb.BatchCreateCatalogsResponse.catalogs:type_name -> entpb.Catalog
-	3,  // 8: entpb.CatalogService.Create:input_type -> entpb.CreateCatalogRequest
-	4,  // 9: entpb.CatalogService.Get:input_type -> entpb.GetCatalogRequest
-	5,  // 10: entpb.CatalogService.Update:input_type -> entpb.UpdateCatalogRequest
-	6,  // 11: entpb.CatalogService.Delete:input_type -> entpb.DeleteCatalogRequest
-	7,  // 12: entpb.CatalogService.List:input_type -> entpb.ListCatalogRequest
-	9,  // 13: entpb.CatalogService.BatchCreate:input_type -> entpb.BatchCreateCatalogsRequest
-	2,  // 14: entpb.CatalogService.Create:output_type -> entpb.Catalog
-	2,  // 15: entpb.CatalogService.Get:output_type -> entpb.Catalog
-	2,  // 16: entpb.CatalogService.Update:output_type -> entpb.Catalog
-	12, // 17: entpb.CatalogService.Delete:output_type -> google.protobuf.Empty
-	8,  // 18: entpb.CatalogService.List:output_type -> entpb.ListCatalogResponse
-	10, // 19: entpb.CatalogService.BatchCreate:output_type -> entpb.BatchCreateCatalogsResponse
-	14, // [14:20] is the sub-list for method output_type
-	8,  // [8:14] is the sub-list for method input_type
-	8,  // [8:8] is the sub-list for extension type_name
-	8,  // [8:8] is the sub-list for extension extendee
-	0,  // [0:8] is the sub-list for field type_name
+	11, // 0: entpb.Catalog.created_at:type_name -> google.protobuf.Timestamp
+	11, // 1: entpb.Catalog.updated_at:type_name -> google.protobuf.Timestamp
+	11, // 2: entpb.Catalog.deleted_at:type_name -> google.protobuf.Timestamp
+	12, // 3: entpb.Catalog.description:type_name -> google.protobuf.StringValue
+	2,  // 4: entpb.CreateCatalogRequest.catalog:type_name -> entpb.Catalog
+	0,  // 5: entpb.GetCatalogRequest.view:type_name -> entpb.GetCatalogRequest.View
+	2,  // 6: entpb.UpdateCatalogRequest.catalog:type_name -> entpb.Catalog
+	1,  // 7: entpb.ListCatalogRequest.view:type_name -> entpb.ListCatalogRequest.View
+	2,  // 8: entpb.ListCatalogResponse.catalog_list:type_name -> entpb.Catalog
+	3,  // 9: entpb.BatchCreateCatalogsRequest.requests:type_name -> entpb.CreateCatalogRequest
+	2,  // 10: entpb.BatchCreateCatalogsResponse.catalogs:type_name -> entpb.Catalog
+	3,  // 11: entpb.CatalogService.Create:input_type -> entpb.CreateCatalogRequest
+	4,  // 12: entpb.CatalogService.Get:input_type -> entpb.GetCatalogRequest
+	5,  // 13: entpb.CatalogService.Update:input_type -> entpb.UpdateCatalogRequest
+	6,  // 14: entpb.CatalogService.Delete:input_type -> entpb.DeleteCatalogRequest
+	7,  // 15: entpb.CatalogService.List:input_type -> entpb.ListCatalogRequest
+	9,  // 16: entpb.CatalogService.BatchCreate:input_type -> entpb.BatchCreateCatalogsRequest
+	2,  // 17: entpb.CatalogService.Create:output_type -> entpb.Catalog
+	2,  // 18: entpb.CatalogService.Get:output_type -> entpb.Catalog
+	2,  // 19: entpb.CatalogService.Update:output_type -> entpb.Catalog
+	13, // 20: entpb.CatalogService.Delete:output_type -> google.protobuf.Empty
+	8,  // 21: entpb.CatalogService.List:output_type -> entpb.ListCatalogResponse
+	10, // 22: entpb.CatalogService.BatchCreate:output_type -> entpb.BatchCreateCatalogsResponse
+	17, // [17:23] is the sub-list for method output_type
+	11, // [11:17] is the sub-list for method input_type
+	11, // [11:11] is the sub-list for extension type_name
+	11, // [11:11] is the sub-list for extension extendee
+	0,  // [0:11] is the sub-list for field type_name
 }
 
 func init() { file_entpb_entpb_proto_init() }

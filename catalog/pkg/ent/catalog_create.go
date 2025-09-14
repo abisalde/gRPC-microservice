@@ -6,10 +6,12 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 	"github.com/abisalde/gprc-microservice/catalog/pkg/ent/catalog"
+	"github.com/google/uuid"
 )
 
 // CatalogCreate is the builder for creating a Catalog entity.
@@ -17,6 +19,48 @@ type CatalogCreate struct {
 	config
 	mutation *CatalogMutation
 	hooks    []Hook
+}
+
+// SetCreatedAt sets the "created_at" field.
+func (_c *CatalogCreate) SetCreatedAt(v time.Time) *CatalogCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
+}
+
+// SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
+func (_c *CatalogCreate) SetNillableCreatedAt(v *time.Time) *CatalogCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
+	}
+	return _c
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (_c *CatalogCreate) SetUpdatedAt(v time.Time) *CatalogCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
+}
+
+// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+func (_c *CatalogCreate) SetNillableUpdatedAt(v *time.Time) *CatalogCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
+	}
+	return _c
+}
+
+// SetDeletedAt sets the "deleted_at" field.
+func (_c *CatalogCreate) SetDeletedAt(v time.Time) *CatalogCreate {
+	_c.mutation.SetDeletedAt(v)
+	return _c
+}
+
+// SetNillableDeletedAt sets the "deleted_at" field if the given value is not nil.
+func (_c *CatalogCreate) SetNillableDeletedAt(v *time.Time) *CatalogCreate {
+	if v != nil {
+		_c.SetDeletedAt(*v)
+	}
+	return _c
 }
 
 // SetName sets the "name" field.
@@ -45,6 +89,12 @@ func (_c *CatalogCreate) SetPrice(v float64) *CatalogCreate {
 	return _c
 }
 
+// SetID sets the "id" field.
+func (_c *CatalogCreate) SetID(v uuid.UUID) *CatalogCreate {
+	_c.mutation.SetID(v)
+	return _c
+}
+
 // Mutation returns the CatalogMutation object of the builder.
 func (_c *CatalogCreate) Mutation() *CatalogMutation {
 	return _c.mutation
@@ -52,6 +102,7 @@ func (_c *CatalogCreate) Mutation() *CatalogMutation {
 
 // Save creates the Catalog in the database.
 func (_c *CatalogCreate) Save(ctx context.Context) (*Catalog, error) {
+	_c.defaults()
 	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
@@ -77,8 +128,26 @@ func (_c *CatalogCreate) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (_c *CatalogCreate) defaults() {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
+		v := catalog.DefaultCreatedAt()
+		_c.mutation.SetCreatedAt(v)
+	}
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
+		v := catalog.DefaultUpdatedAt()
+		_c.mutation.SetUpdatedAt(v)
+	}
+}
+
 // check runs all checks and user-defined validators on the builder.
 func (_c *CatalogCreate) check() error {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
+		return &ValidationError{Name: "created_at", err: errors.New(`ent: missing required field "Catalog.created_at"`)}
+	}
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
+		return &ValidationError{Name: "updated_at", err: errors.New(`ent: missing required field "Catalog.updated_at"`)}
+	}
 	if _, ok := _c.mutation.Name(); !ok {
 		return &ValidationError{Name: "name", err: errors.New(`ent: missing required field "Catalog.name"`)}
 	}
@@ -99,8 +168,13 @@ func (_c *CatalogCreate) sqlSave(ctx context.Context) (*Catalog, error) {
 		}
 		return nil, err
 	}
-	id := _spec.ID.Value.(int64)
-	_node.ID = int(id)
+	if _spec.ID.Value != nil {
+		if id, ok := _spec.ID.Value.(*uuid.UUID); ok {
+			_node.ID = *id
+		} else if err := _node.ID.Scan(_spec.ID.Value); err != nil {
+			return nil, err
+		}
+	}
 	_c.mutation.id = &_node.ID
 	_c.mutation.done = true
 	return _node, nil
@@ -109,8 +183,24 @@ func (_c *CatalogCreate) sqlSave(ctx context.Context) (*Catalog, error) {
 func (_c *CatalogCreate) createSpec() (*Catalog, *sqlgraph.CreateSpec) {
 	var (
 		_node = &Catalog{config: _c.config}
-		_spec = sqlgraph.NewCreateSpec(catalog.Table, sqlgraph.NewFieldSpec(catalog.FieldID, field.TypeInt))
+		_spec = sqlgraph.NewCreateSpec(catalog.Table, sqlgraph.NewFieldSpec(catalog.FieldID, field.TypeUUID))
 	)
+	if id, ok := _c.mutation.ID(); ok {
+		_node.ID = id
+		_spec.ID.Value = &id
+	}
+	if value, ok := _c.mutation.CreatedAt(); ok {
+		_spec.SetField(catalog.FieldCreatedAt, field.TypeTime, value)
+		_node.CreatedAt = value
+	}
+	if value, ok := _c.mutation.UpdatedAt(); ok {
+		_spec.SetField(catalog.FieldUpdatedAt, field.TypeTime, value)
+		_node.UpdatedAt = value
+	}
+	if value, ok := _c.mutation.DeletedAt(); ok {
+		_spec.SetField(catalog.FieldDeletedAt, field.TypeTime, value)
+		_node.DeletedAt = &value
+	}
 	if value, ok := _c.mutation.Name(); ok {
 		_spec.SetField(catalog.FieldName, field.TypeString, value)
 		_node.Name = value
@@ -144,6 +234,7 @@ func (_c *CatalogCreateBulk) Save(ctx context.Context) ([]*Catalog, error) {
 	for i := range _c.builders {
 		func(i int, root context.Context) {
 			builder := _c.builders[i]
+			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*CatalogMutation)
 				if !ok {
@@ -170,10 +261,6 @@ func (_c *CatalogCreateBulk) Save(ctx context.Context) ([]*Catalog, error) {
 					return nil, err
 				}
 				mutation.id = &nodes[i].ID
-				if specs[i].ID.Value != nil {
-					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = int(id)
-				}
 				mutation.done = true
 				return nodes[i], nil
 			})

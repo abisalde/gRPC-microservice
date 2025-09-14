@@ -13,6 +13,7 @@ import (
 	"entgo.io/ent/schema/field"
 	"github.com/abisalde/gprc-microservice/catalog/pkg/ent/catalog"
 	"github.com/abisalde/gprc-microservice/catalog/pkg/ent/predicate"
+	"github.com/google/uuid"
 )
 
 // CatalogQuery is the builder for querying Catalog entities.
@@ -82,8 +83,8 @@ func (_q *CatalogQuery) FirstX(ctx context.Context) *Catalog {
 
 // FirstID returns the first Catalog ID from the query.
 // Returns a *NotFoundError when no Catalog ID was found.
-func (_q *CatalogQuery) FirstID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *CatalogQuery) FirstID(ctx context.Context) (id uuid.UUID, err error) {
+	var ids []uuid.UUID
 	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
@@ -95,7 +96,7 @@ func (_q *CatalogQuery) FirstID(ctx context.Context) (id int, err error) {
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (_q *CatalogQuery) FirstIDX(ctx context.Context) int {
+func (_q *CatalogQuery) FirstIDX(ctx context.Context) uuid.UUID {
 	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -133,8 +134,8 @@ func (_q *CatalogQuery) OnlyX(ctx context.Context) *Catalog {
 // OnlyID is like Only, but returns the only Catalog ID in the query.
 // Returns a *NotSingularError when more than one Catalog ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (_q *CatalogQuery) OnlyID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *CatalogQuery) OnlyID(ctx context.Context) (id uuid.UUID, err error) {
+	var ids []uuid.UUID
 	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
@@ -150,7 +151,7 @@ func (_q *CatalogQuery) OnlyID(ctx context.Context) (id int, err error) {
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (_q *CatalogQuery) OnlyIDX(ctx context.Context) int {
+func (_q *CatalogQuery) OnlyIDX(ctx context.Context) uuid.UUID {
 	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -178,7 +179,7 @@ func (_q *CatalogQuery) AllX(ctx context.Context) []*Catalog {
 }
 
 // IDs executes the query and returns a list of Catalog IDs.
-func (_q *CatalogQuery) IDs(ctx context.Context) (ids []int, err error) {
+func (_q *CatalogQuery) IDs(ctx context.Context) (ids []uuid.UUID, err error) {
 	if _q.ctx.Unique == nil && _q.path != nil {
 		_q.Unique(true)
 	}
@@ -190,7 +191,7 @@ func (_q *CatalogQuery) IDs(ctx context.Context) (ids []int, err error) {
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (_q *CatalogQuery) IDsX(ctx context.Context) []int {
+func (_q *CatalogQuery) IDsX(ctx context.Context) []uuid.UUID {
 	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -262,12 +263,12 @@ func (_q *CatalogQuery) Clone() *CatalogQuery {
 // Example:
 //
 //	var v []struct {
-//		Name string `json:"name,omitempty"`
+//		CreatedAt time.Time `json:"createdAt"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.Catalog.Query().
-//		GroupBy(catalog.FieldName).
+//		GroupBy(catalog.FieldCreatedAt).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (_q *CatalogQuery) GroupBy(field string, fields ...string) *CatalogGroupBy {
@@ -285,11 +286,11 @@ func (_q *CatalogQuery) GroupBy(field string, fields ...string) *CatalogGroupBy 
 // Example:
 //
 //	var v []struct {
-//		Name string `json:"name,omitempty"`
+//		CreatedAt time.Time `json:"createdAt"`
 //	}
 //
 //	client.Catalog.Query().
-//		Select(catalog.FieldName).
+//		Select(catalog.FieldCreatedAt).
 //		Scan(ctx, &v)
 func (_q *CatalogQuery) Select(fields ...string) *CatalogSelect {
 	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
@@ -365,7 +366,7 @@ func (_q *CatalogQuery) sqlCount(ctx context.Context) (int, error) {
 }
 
 func (_q *CatalogQuery) querySpec() *sqlgraph.QuerySpec {
-	_spec := sqlgraph.NewQuerySpec(catalog.Table, catalog.Columns, sqlgraph.NewFieldSpec(catalog.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewQuerySpec(catalog.Table, catalog.Columns, sqlgraph.NewFieldSpec(catalog.FieldID, field.TypeUUID))
 	_spec.From = _q.sql
 	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique

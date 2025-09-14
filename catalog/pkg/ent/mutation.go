@@ -7,11 +7,13 @@ import (
 	"errors"
 	"fmt"
 	"sync"
+	"time"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"github.com/abisalde/gprc-microservice/catalog/pkg/ent/catalog"
 	"github.com/abisalde/gprc-microservice/catalog/pkg/ent/predicate"
+	"github.com/google/uuid"
 )
 
 const (
@@ -31,7 +33,10 @@ type CatalogMutation struct {
 	config
 	op            Op
 	typ           string
-	id            *int
+	id            *uuid.UUID
+	created_at    *time.Time
+	updated_at    *time.Time
+	deleted_at    *time.Time
 	name          *string
 	description   *string
 	price         *float64
@@ -62,7 +67,7 @@ func newCatalogMutation(c config, op Op, opts ...catalogOption) *CatalogMutation
 }
 
 // withCatalogID sets the ID field of the mutation.
-func withCatalogID(id int) catalogOption {
+func withCatalogID(id uuid.UUID) catalogOption {
 	return func(m *CatalogMutation) {
 		var (
 			err   error
@@ -112,9 +117,15 @@ func (m CatalogMutation) Tx() (*Tx, error) {
 	return tx, nil
 }
 
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of Catalog entities.
+func (m *CatalogMutation) SetID(id uuid.UUID) {
+	m.id = &id
+}
+
 // ID returns the ID value in the mutation. Note that the ID is only available
 // if it was provided to the builder or after it was returned from the database.
-func (m *CatalogMutation) ID() (id int, exists bool) {
+func (m *CatalogMutation) ID() (id uuid.UUID, exists bool) {
 	if m.id == nil {
 		return
 	}
@@ -125,12 +136,12 @@ func (m *CatalogMutation) ID() (id int, exists bool) {
 // That means, if the mutation is applied within a transaction with an isolation level such
 // as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
 // or updated by the mutation.
-func (m *CatalogMutation) IDs(ctx context.Context) ([]int, error) {
+func (m *CatalogMutation) IDs(ctx context.Context) ([]uuid.UUID, error) {
 	switch {
 	case m.op.Is(OpUpdateOne | OpDeleteOne):
 		id, exists := m.ID()
 		if exists {
-			return []int{id}, nil
+			return []uuid.UUID{id}, nil
 		}
 		fallthrough
 	case m.op.Is(OpUpdate | OpDelete):
@@ -138,6 +149,127 @@ func (m *CatalogMutation) IDs(ctx context.Context) ([]int, error) {
 	default:
 		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
 	}
+}
+
+// SetCreatedAt sets the "created_at" field.
+func (m *CatalogMutation) SetCreatedAt(t time.Time) {
+	m.created_at = &t
+}
+
+// CreatedAt returns the value of the "created_at" field in the mutation.
+func (m *CatalogMutation) CreatedAt() (r time.Time, exists bool) {
+	v := m.created_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreatedAt returns the old "created_at" field's value of the Catalog entity.
+// If the Catalog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *CatalogMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCreatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreatedAt: %w", err)
+	}
+	return oldValue.CreatedAt, nil
+}
+
+// ResetCreatedAt resets all changes to the "created_at" field.
+func (m *CatalogMutation) ResetCreatedAt() {
+	m.created_at = nil
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (m *CatalogMutation) SetUpdatedAt(t time.Time) {
+	m.updated_at = &t
+}
+
+// UpdatedAt returns the value of the "updated_at" field in the mutation.
+func (m *CatalogMutation) UpdatedAt() (r time.Time, exists bool) {
+	v := m.updated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdatedAt returns the old "updated_at" field's value of the Catalog entity.
+// If the Catalog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *CatalogMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUpdatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdatedAt: %w", err)
+	}
+	return oldValue.UpdatedAt, nil
+}
+
+// ResetUpdatedAt resets all changes to the "updated_at" field.
+func (m *CatalogMutation) ResetUpdatedAt() {
+	m.updated_at = nil
+}
+
+// SetDeletedAt sets the "deleted_at" field.
+func (m *CatalogMutation) SetDeletedAt(t time.Time) {
+	m.deleted_at = &t
+}
+
+// DeletedAt returns the value of the "deleted_at" field in the mutation.
+func (m *CatalogMutation) DeletedAt() (r time.Time, exists bool) {
+	v := m.deleted_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDeletedAt returns the old "deleted_at" field's value of the Catalog entity.
+// If the Catalog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *CatalogMutation) OldDeletedAt(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDeletedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDeletedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDeletedAt: %w", err)
+	}
+	return oldValue.DeletedAt, nil
+}
+
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (m *CatalogMutation) ClearDeletedAt() {
+	m.deleted_at = nil
+	m.clearedFields[catalog.FieldDeletedAt] = struct{}{}
+}
+
+// DeletedAtCleared returns if the "deleted_at" field was cleared in this mutation.
+func (m *CatalogMutation) DeletedAtCleared() bool {
+	_, ok := m.clearedFields[catalog.FieldDeletedAt]
+	return ok
+}
+
+// ResetDeletedAt resets all changes to the "deleted_at" field.
+func (m *CatalogMutation) ResetDeletedAt() {
+	m.deleted_at = nil
+	delete(m.clearedFields, catalog.FieldDeletedAt)
 }
 
 // SetName sets the "name" field.
@@ -315,7 +447,16 @@ func (m *CatalogMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *CatalogMutation) Fields() []string {
-	fields := make([]string, 0, 3)
+	fields := make([]string, 0, 6)
+	if m.created_at != nil {
+		fields = append(fields, catalog.FieldCreatedAt)
+	}
+	if m.updated_at != nil {
+		fields = append(fields, catalog.FieldUpdatedAt)
+	}
+	if m.deleted_at != nil {
+		fields = append(fields, catalog.FieldDeletedAt)
+	}
 	if m.name != nil {
 		fields = append(fields, catalog.FieldName)
 	}
@@ -333,6 +474,12 @@ func (m *CatalogMutation) Fields() []string {
 // schema.
 func (m *CatalogMutation) Field(name string) (ent.Value, bool) {
 	switch name {
+	case catalog.FieldCreatedAt:
+		return m.CreatedAt()
+	case catalog.FieldUpdatedAt:
+		return m.UpdatedAt()
+	case catalog.FieldDeletedAt:
+		return m.DeletedAt()
 	case catalog.FieldName:
 		return m.Name()
 	case catalog.FieldDescription:
@@ -348,6 +495,12 @@ func (m *CatalogMutation) Field(name string) (ent.Value, bool) {
 // database failed.
 func (m *CatalogMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
+	case catalog.FieldCreatedAt:
+		return m.OldCreatedAt(ctx)
+	case catalog.FieldUpdatedAt:
+		return m.OldUpdatedAt(ctx)
+	case catalog.FieldDeletedAt:
+		return m.OldDeletedAt(ctx)
 	case catalog.FieldName:
 		return m.OldName(ctx)
 	case catalog.FieldDescription:
@@ -363,6 +516,27 @@ func (m *CatalogMutation) OldField(ctx context.Context, name string) (ent.Value,
 // type.
 func (m *CatalogMutation) SetField(name string, value ent.Value) error {
 	switch name {
+	case catalog.FieldCreatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreatedAt(v)
+		return nil
+	case catalog.FieldUpdatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdatedAt(v)
+		return nil
+	case catalog.FieldDeletedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDeletedAt(v)
+		return nil
 	case catalog.FieldName:
 		v, ok := value.(string)
 		if !ok {
@@ -429,6 +603,9 @@ func (m *CatalogMutation) AddField(name string, value ent.Value) error {
 // mutation.
 func (m *CatalogMutation) ClearedFields() []string {
 	var fields []string
+	if m.FieldCleared(catalog.FieldDeletedAt) {
+		fields = append(fields, catalog.FieldDeletedAt)
+	}
 	if m.FieldCleared(catalog.FieldDescription) {
 		fields = append(fields, catalog.FieldDescription)
 	}
@@ -446,6 +623,9 @@ func (m *CatalogMutation) FieldCleared(name string) bool {
 // error if the field is not defined in the schema.
 func (m *CatalogMutation) ClearField(name string) error {
 	switch name {
+	case catalog.FieldDeletedAt:
+		m.ClearDeletedAt()
+		return nil
 	case catalog.FieldDescription:
 		m.ClearDescription()
 		return nil
@@ -457,6 +637,15 @@ func (m *CatalogMutation) ClearField(name string) error {
 // It returns an error if the field is not defined in the schema.
 func (m *CatalogMutation) ResetField(name string) error {
 	switch name {
+	case catalog.FieldCreatedAt:
+		m.ResetCreatedAt()
+		return nil
+	case catalog.FieldUpdatedAt:
+		m.ResetUpdatedAt()
+		return nil
+	case catalog.FieldDeletedAt:
+		m.ResetDeletedAt()
+		return nil
 	case catalog.FieldName:
 		m.ResetName()
 		return nil

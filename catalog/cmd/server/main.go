@@ -1,11 +1,14 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
 	"time"
+
+	"github.com/abisalde/gprc-microservice/catalog/internal/es"
 )
 
 type HealthResponse struct {
@@ -50,23 +53,32 @@ func healthHandler(w http.ResponseWriter, r *http.Request) {
 	log.Printf("Health check requested from %s", r.RemoteAddr)
 }
 
+func setupElasticSearch() (*es.ElasticClient, error) {
+	elastic, err := es.Connect()
+
+	if err != nil {
+		return nil, err
+	}
+
+	ctx := context.Background()
+
+	if err := elastic.HealthCheck(ctx); err != nil {
+		elastic.Close()
+		return nil, err
+	}
+
+	return elastic, nil
+}
+
 func main() {
-	http.HandleFunc("/", helloHandler)
-	http.HandleFunc("/health", healthHandler)
 
-	server := &http.Server{
-		Addr:         ":50052",
-		ReadTimeout:  10 * time.Second,
-		WriteTimeout: 10 * time.Second,
-		IdleTimeout:  60 * time.Second,
+	elasticSearch, err := setupElasticSearch()
+
+	if err != nil {
+		log.Fatalf("❌ Failed to setup database: %v", err)
 	}
+	defer elasticSearch.Close()
 
-	log.Println("Authentication Service starting on :50052")
-	log.Println("Endpoints available:")
-	log.Println("  - http://localhost:50052/")
-	log.Println("  - http://localhost:50052/health")
+	// svc := entpb.NewCatalogService(elasticSearch.Client)
 
-	if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-		log.Fatalf("Server failed to start: %v", err)
-	}
 }

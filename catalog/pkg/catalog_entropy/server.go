@@ -5,7 +5,6 @@ import (
 	"flag"
 	"fmt"
 	"net"
-	"strconv"
 	"time"
 
 	"github.com/abisalde/gprc-microservice/catalog/internal/model"
@@ -108,7 +107,7 @@ func (s *grpcServer) Update(ctx context.Context, r *entpb.UpdateCatalogRequest) 
 	return entCatalogToProto(c), nil
 }
 
-func (s *grpcServer) GetProduct(ctx context.Context, r *entpb.GetCatalogRequest) (*entpb.Catalog, error) {
+func (s *grpcServer) Get(ctx context.Context, r *entpb.GetCatalogRequest) (*entpb.Catalog, error) {
 	idUUID, err := uuid.Parse(string(r.GetId()))
 	if err != nil {
 		return nil, err
@@ -120,58 +119,6 @@ func (s *grpcServer) GetProduct(ctx context.Context, r *entpb.GetCatalogRequest)
 	}
 
 	return entCatalogToProto(p), nil
-}
-
-func (s *grpcServer) GetProducts(ctx context.Context, r *entpb.GetProductsRequest) (*entpb.GetProductsResponse, error) {
-
-	skip := uint64(0)
-	if r.GetPageToken() != "" {
-		if parsedSkip, err := strconv.ParseUint(r.GetPageToken(), 10, 64); err == nil {
-			skip = parsedSkip
-		}
-	}
-
-	take := uint64(r.GetPageSize())
-	if take == 0 {
-		take = 20
-	}
-
-	var products []*ent.Catalog
-	var err error
-
-	switch {
-	case len(r.GetIds()) > 0:
-		uuids, parseErr := parseUUIDs(r.GetIds())
-		if parseErr != nil {
-			return nil, parseErr
-		}
-		products, err = s.service.GetProductsByIDs(ctx, uuids)
-	case r.GetQuery() != nil && r.GetQuery().Value != "":
-		products, err = s.service.SearchProducts(ctx, r.GetQuery().Value, skip, take)
-	default:
-		products, err = s.service.GetProducts(ctx, skip, take)
-	}
-
-	if err != nil {
-		return nil, err
-	}
-
-	catalogList := make([]*entpb.Catalog, len(products))
-	for i, product := range products {
-		catalogList[i] = entCatalogToProto(product)
-	}
-
-	nextPageToken := ""
-	if len(r.GetIds()) == 0 && len(products) == int(take) {
-		nextPageToken = strconv.FormatUint(uint64(skip+take), 10)
-	}
-
-	return &entpb.GetProductsResponse{
-		Products:      catalogList,
-		NextPageToken: nextPageToken,
-		TotalCount:    int64(len(products)),
-	}, nil
-
 }
 
 func (s *grpcServer) BatchCreate(ctx context.Context, r *entpb.BatchCreateCatalogsRequest) (*entpb.BatchCreateCatalogsResponse, error) {

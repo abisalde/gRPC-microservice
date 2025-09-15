@@ -6,6 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -24,6 +25,32 @@ type CatalogUpdate struct {
 // Where appends a list predicates to the CatalogUpdate builder.
 func (_u *CatalogUpdate) Where(ps ...predicate.Catalog) *CatalogUpdate {
 	_u.mutation.Where(ps...)
+	return _u
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (_u *CatalogUpdate) SetUpdatedAt(v time.Time) *CatalogUpdate {
+	_u.mutation.SetUpdatedAt(v)
+	return _u
+}
+
+// SetDeletedAt sets the "deleted_at" field.
+func (_u *CatalogUpdate) SetDeletedAt(v time.Time) *CatalogUpdate {
+	_u.mutation.SetDeletedAt(v)
+	return _u
+}
+
+// SetNillableDeletedAt sets the "deleted_at" field if the given value is not nil.
+func (_u *CatalogUpdate) SetNillableDeletedAt(v *time.Time) *CatalogUpdate {
+	if v != nil {
+		_u.SetDeletedAt(*v)
+	}
+	return _u
+}
+
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (_u *CatalogUpdate) ClearDeletedAt() *CatalogUpdate {
+	_u.mutation.ClearDeletedAt()
 	return _u
 }
 
@@ -89,6 +116,7 @@ func (_u *CatalogUpdate) Mutation() *CatalogMutation {
 
 // Save executes the query and returns the number of nodes affected by the update operation.
 func (_u *CatalogUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
 	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
@@ -114,14 +142,31 @@ func (_u *CatalogUpdate) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (_u *CatalogUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok {
+		v := catalog.UpdateDefaultUpdatedAt()
+		_u.mutation.SetUpdatedAt(v)
+	}
+}
+
 func (_u *CatalogUpdate) sqlSave(ctx context.Context) (_node int, err error) {
-	_spec := sqlgraph.NewUpdateSpec(catalog.Table, catalog.Columns, sqlgraph.NewFieldSpec(catalog.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(catalog.Table, catalog.Columns, sqlgraph.NewFieldSpec(catalog.FieldID, field.TypeUUID))
 	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
+	}
+	if value, ok := _u.mutation.UpdatedAt(); ok {
+		_spec.SetField(catalog.FieldUpdatedAt, field.TypeTime, value)
+	}
+	if value, ok := _u.mutation.DeletedAt(); ok {
+		_spec.SetField(catalog.FieldDeletedAt, field.TypeTime, value)
+	}
+	if _u.mutation.DeletedAtCleared() {
+		_spec.ClearField(catalog.FieldDeletedAt, field.TypeTime)
 	}
 	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(catalog.FieldName, field.TypeString, value)
@@ -156,6 +201,32 @@ type CatalogUpdateOne struct {
 	fields   []string
 	hooks    []Hook
 	mutation *CatalogMutation
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (_u *CatalogUpdateOne) SetUpdatedAt(v time.Time) *CatalogUpdateOne {
+	_u.mutation.SetUpdatedAt(v)
+	return _u
+}
+
+// SetDeletedAt sets the "deleted_at" field.
+func (_u *CatalogUpdateOne) SetDeletedAt(v time.Time) *CatalogUpdateOne {
+	_u.mutation.SetDeletedAt(v)
+	return _u
+}
+
+// SetNillableDeletedAt sets the "deleted_at" field if the given value is not nil.
+func (_u *CatalogUpdateOne) SetNillableDeletedAt(v *time.Time) *CatalogUpdateOne {
+	if v != nil {
+		_u.SetDeletedAt(*v)
+	}
+	return _u
+}
+
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (_u *CatalogUpdateOne) ClearDeletedAt() *CatalogUpdateOne {
+	_u.mutation.ClearDeletedAt()
+	return _u
 }
 
 // SetName sets the "name" field.
@@ -233,6 +304,7 @@ func (_u *CatalogUpdateOne) Select(field string, fields ...string) *CatalogUpdat
 
 // Save executes the query and returns the updated Catalog entity.
 func (_u *CatalogUpdateOne) Save(ctx context.Context) (*Catalog, error) {
+	_u.defaults()
 	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
@@ -258,8 +330,16 @@ func (_u *CatalogUpdateOne) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (_u *CatalogUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok {
+		v := catalog.UpdateDefaultUpdatedAt()
+		_u.mutation.SetUpdatedAt(v)
+	}
+}
+
 func (_u *CatalogUpdateOne) sqlSave(ctx context.Context) (_node *Catalog, err error) {
-	_spec := sqlgraph.NewUpdateSpec(catalog.Table, catalog.Columns, sqlgraph.NewFieldSpec(catalog.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(catalog.Table, catalog.Columns, sqlgraph.NewFieldSpec(catalog.FieldID, field.TypeUUID))
 	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "Catalog.id" for update`)}
@@ -283,6 +363,15 @@ func (_u *CatalogUpdateOne) sqlSave(ctx context.Context) (_node *Catalog, err er
 				ps[i](selector)
 			}
 		}
+	}
+	if value, ok := _u.mutation.UpdatedAt(); ok {
+		_spec.SetField(catalog.FieldUpdatedAt, field.TypeTime, value)
+	}
+	if value, ok := _u.mutation.DeletedAt(); ok {
+		_spec.SetField(catalog.FieldDeletedAt, field.TypeTime, value)
+	}
+	if _u.mutation.DeletedAtCleared() {
+		_spec.ClearField(catalog.FieldDeletedAt, field.TypeTime)
 	}
 	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(catalog.FieldName, field.TypeString, value)

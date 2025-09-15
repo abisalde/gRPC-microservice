@@ -5,15 +5,17 @@ import (
 	context "context"
 	base64 "encoding/base64"
 	entproto "entgo.io/contrib/entproto"
+	runtime "entgo.io/contrib/entproto/runtime"
 	sqlgraph "entgo.io/ent/dialect/sql/sqlgraph"
 	fmt "fmt"
 	ent "github.com/abisalde/gprc-microservice/catalog/pkg/ent"
 	catalog "github.com/abisalde/gprc-microservice/catalog/pkg/ent/catalog"
+	uuid "github.com/google/uuid"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
-	strconv "strconv"
 )
 
 // CatalogService implements CatalogServiceServer
@@ -32,14 +34,25 @@ func NewCatalogService(client *ent.Client) *CatalogService {
 // toProtoCatalog transforms the ent type to the pb type
 func toProtoCatalog(e *ent.Catalog) (*Catalog, error) {
 	v := &Catalog{}
+	created_at := timestamppb.New(e.CreatedAt)
+	v.CreatedAt = created_at
+	if e.DeletedAt != nil {
+		deleted_at := timestamppb.New(*e.DeletedAt)
+		v.DeletedAt = deleted_at
+	}
 	description := wrapperspb.String(e.Description)
 	v.Description = description
-	id := int64(e.ID)
+	id, err := e.ID.MarshalBinary()
+	if err != nil {
+		return nil, err
+	}
 	v.Id = id
 	name := e.Name
 	v.Name = name
 	price := e.Price
 	v.Price = price
+	updated_at := timestamppb.New(e.UpdatedAt)
+	v.UpdatedAt = updated_at
 	return v, nil
 }
 
@@ -87,7 +100,10 @@ func (svc *CatalogService) Get(ctx context.Context, req *GetCatalogRequest) (*Ca
 		err error
 		get *ent.Catalog
 	)
-	id := int(req.GetId())
+	var id uuid.UUID
+	if err := (&id).UnmarshalBinary(req.GetId()); err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "invalid argument: %s", err)
+	}
 	switch req.GetView() {
 	case GetCatalogRequest_VIEW_UNSPECIFIED, GetCatalogRequest_BASIC:
 		get, err = svc.client.Catalog.Get(ctx, id)
@@ -112,8 +128,15 @@ func (svc *CatalogService) Get(ctx context.Context, req *GetCatalogRequest) (*Ca
 // Update implements CatalogServiceServer.Update
 func (svc *CatalogService) Update(ctx context.Context, req *UpdateCatalogRequest) (*Catalog, error) {
 	catalog := req.GetCatalog()
-	catalogID := int(catalog.GetId())
+	var catalogID uuid.UUID
+	if err := (&catalogID).UnmarshalBinary(catalog.GetId()); err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "invalid argument: %s", err)
+	}
 	m := svc.client.Catalog.UpdateOneID(catalogID)
+	if catalog.GetDeletedAt() != nil {
+		catalogDeletedAt := runtime.ExtractTime(catalog.GetDeletedAt())
+		m.SetDeletedAt(catalogDeletedAt)
+	}
 	if catalog.GetDescription() != nil {
 		catalogDescription := catalog.GetDescription().GetValue()
 		m.SetDescription(catalogDescription)
@@ -122,6 +145,8 @@ func (svc *CatalogService) Update(ctx context.Context, req *UpdateCatalogRequest
 	m.SetName(catalogName)
 	catalogPrice := float64(catalog.GetPrice())
 	m.SetPrice(catalogPrice)
+	catalogUpdatedAt := runtime.ExtractTime(catalog.GetUpdatedAt())
+	m.SetUpdatedAt(catalogUpdatedAt)
 
 	res, err := m.Save(ctx)
 	switch {
@@ -144,7 +169,10 @@ func (svc *CatalogService) Update(ctx context.Context, req *UpdateCatalogRequest
 // Delete implements CatalogServiceServer.Delete
 func (svc *CatalogService) Delete(ctx context.Context, req *DeleteCatalogRequest) (*emptypb.Empty, error) {
 	var err error
-	id := int(req.GetId())
+	var id uuid.UUID
+	if err := (&id).UnmarshalBinary(req.GetId()); err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "invalid argument: %s", err)
+	}
 	err = svc.client.Catalog.DeleteOneID(id).Exec(ctx)
 	switch {
 	case err == nil:
@@ -179,11 +207,10 @@ func (svc *CatalogService) List(ctx context.Context, req *ListCatalogRequest) (*
 		if err != nil {
 			return nil, status.Errorf(codes.InvalidArgument, "page token is invalid")
 		}
-		token, err := strconv.ParseInt(string(bytes), 10, 32)
+		pageToken, err := uuid.ParseBytes(bytes)
 		if err != nil {
 			return nil, status.Errorf(codes.InvalidArgument, "page token is invalid")
 		}
-		pageToken := int(token)
 		listQuery = listQuery.
 			Where(catalog.IDLTE(pageToken))
 	}
@@ -253,6 +280,12 @@ func (svc *CatalogService) BatchCreate(ctx context.Context, req *BatchCreateCata
 
 func (svc *CatalogService) createBuilder(catalog *Catalog) (*ent.CatalogCreate, error) {
 	m := svc.client.Catalog.Create()
+	catalogCreatedAt := runtime.ExtractTime(catalog.GetCreatedAt())
+	m.SetCreatedAt(catalogCreatedAt)
+	if catalog.GetDeletedAt() != nil {
+		catalogDeletedAt := runtime.ExtractTime(catalog.GetDeletedAt())
+		m.SetDeletedAt(catalogDeletedAt)
+	}
 	if catalog.GetDescription() != nil {
 		catalogDescription := catalog.GetDescription().GetValue()
 		m.SetDescription(catalogDescription)
@@ -261,5 +294,7 @@ func (svc *CatalogService) createBuilder(catalog *Catalog) (*ent.CatalogCreate, 
 	m.SetName(catalogName)
 	catalogPrice := float64(catalog.GetPrice())
 	m.SetPrice(catalogPrice)
+	catalogUpdatedAt := runtime.ExtractTime(catalog.GetUpdatedAt())
+	m.SetUpdatedAt(catalogUpdatedAt)
 	return m, nil
 }

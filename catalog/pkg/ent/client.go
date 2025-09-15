@@ -10,6 +10,7 @@ import (
 	"reflect"
 
 	"github.com/abisalde/gprc-microservice/catalog/pkg/ent/migrate"
+	"github.com/google/uuid"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"
@@ -257,7 +258,7 @@ func (c *CatalogClient) UpdateOne(_m *Catalog) *CatalogUpdateOne {
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *CatalogClient) UpdateOneID(id int) *CatalogUpdateOne {
+func (c *CatalogClient) UpdateOneID(id uuid.UUID) *CatalogUpdateOne {
 	mutation := newCatalogMutation(c.config, OpUpdateOne, withCatalogID(id))
 	return &CatalogUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -274,7 +275,7 @@ func (c *CatalogClient) DeleteOne(_m *Catalog) *CatalogDeleteOne {
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *CatalogClient) DeleteOneID(id int) *CatalogDeleteOne {
+func (c *CatalogClient) DeleteOneID(id uuid.UUID) *CatalogDeleteOne {
 	builder := c.Delete().Where(catalog.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -291,12 +292,12 @@ func (c *CatalogClient) Query() *CatalogQuery {
 }
 
 // Get returns a Catalog entity by its id.
-func (c *CatalogClient) Get(ctx context.Context, id int) (*Catalog, error) {
+func (c *CatalogClient) Get(ctx context.Context, id uuid.UUID) (*Catalog, error) {
 	return c.Query().Where(catalog.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *CatalogClient) GetX(ctx context.Context, id int) *Catalog {
+func (c *CatalogClient) GetX(ctx context.Context, id uuid.UUID) *Catalog {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)

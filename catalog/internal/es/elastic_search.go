@@ -55,44 +55,46 @@ func Connect() (*ElasticClient, error) {
 
 func migrate(ctx context.Context, client *elasticsearch.TypedClient, index string) error {
 
-	exists, err := client.Indices.Exists(index).IsSuccess(ctx)
+	exist, err := client.Indices.Exists(index).IsSuccess(ctx)
 	if err != nil {
 		return fmt.Errorf("failed to check index existence: %w", err)
 	}
 
-	if exists {
-		log.Printf("▶️ Index %s already exists", index)
-		return nil
-	}
+	// if exists {
+	// 	log.Printf("▶️ Index %s already exists", index)
+	// 	return nil
+	// }
 
-	_, err = client.Indices.Create(index).
-		Mappings(&types.TypeMapping{
-			Properties: map[string]types.Property{
-				"id": types.KeywordProperty{},
-				"name": map[string]interface{}{
-					"type": "text",
+	if !exist {
+		_, err = client.Indices.Create(index).
+			Mappings(&types.TypeMapping{
+				Properties: map[string]types.Property{
+					"id": types.KeywordProperty{},
+					"name": map[string]interface{}{
+						"type": "text",
+					},
+					"description": map[string]interface{}{
+						"type": "text",
+					},
+					"price": map[string]interface{}{
+						"type": "float",
+					},
+					"created_at": map[string]interface{}{
+						"type":   "date",
+						"format": "strict_date_optional_time||epoch_millis",
+					},
+					"updated_at": map[string]interface{}{
+						"type":   "date",
+						"format": "strict_date_optional_time||epoch_millis",
+					},
 				},
-				"description": map[string]interface{}{
-					"type": "text",
-				},
-				"price": map[string]interface{}{
-					"type": "float",
-				},
-				"created_at": map[string]interface{}{
-					"type":   "date",
-					"format": "strict_date_optional_time||epoch_millis",
-				},
-				"updated_at": map[string]interface{}{
-					"type":   "date",
-					"format": "strict_date_optional_time||epoch_millis",
-				},
-			},
-		}).
-		Do(ctx)
-	if err != nil {
-		return fmt.Errorf("failed to create index: %w", err)
+			}).
+			Do(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to create index: %w", err)
+		}
+		log.Printf("✅ Created index: %s", index)
 	}
-	log.Printf("✅ Created index: %s", index)
 
 	return nil
 }

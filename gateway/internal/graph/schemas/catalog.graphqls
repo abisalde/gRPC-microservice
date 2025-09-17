@@ -1,0 +1,30 @@
+"""
+Represent a Catalog/Products
+"""
+type Product {
+	id: ID!
+	name: String!
+	description: String!
+	price: Float!
+	createdAt: Time!
+	updatedAt: Time!
+}
+
+input CreateProductInput {
+	name: String!
+	description: String!
+	price: Float!
+}
+
+input PaginationInput {
+	skip: Int
+	take: Int
+}
+
+extend type Query {
+	products(pagination: PaginationInput, query: String, id: String): [Product!]!
+}
+
+extend type Mutation {
+	createProduct(product: CreateProductInput!): Product
+}

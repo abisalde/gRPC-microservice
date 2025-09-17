@@ -3,20 +3,13 @@ package main
 import (
 	"context"
 	"log"
-	"net"
 	"time"
 
 	"github.com/abisalde/gprc-microservice/auth/internal/database"
+	"github.com/abisalde/gprc-microservice/auth/internal/repository"
 	"github.com/abisalde/gprc-microservice/auth/internal/service"
-	"github.com/abisalde/gprc-microservice/auth/pkg/ent/proto/entpb"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/reflection"
+	"github.com/abisalde/gprc-microservice/auth/pkg/auth_entropy"
 )
-
-type grpcServer struct {
-	entpb.UnimplementedUserServiceServer
-	service *service.UserService
-}
 
 func setupDatabase() (*database.Database, error) {
 	db, err := database.Connect()
@@ -44,20 +37,8 @@ func main() {
 	}
 	defer db.Close()
 
-	svc := entpb.NewUserService(db.Client)
+	r := repository.NewUserRepository(db.Client)
 
-	server := grpc.NewServer()
-
-	entpb.RegisterUserServiceServer(server, svc)
-
-	lis, err := net.Listen("tcp", ":50051")
-	if err != nil {
-		log.Fatalf("failed listening: %s", err)
-	}
-
-	reflection.Register(server)
-
-	if err := server.Serve(lis); err != nil {
-		log.Fatalf("server ended: %s", err)
-	}
+	s := service.NewUserService(r)
+	auth_entropy.ListenGRPC(s, db)
 }

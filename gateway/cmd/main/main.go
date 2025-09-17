@@ -2,13 +2,13 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
-	"os"
 	"time"
 
 	"github.com/99designs/gqlgen/graphql/playground"
+	server "github.com/abisalde/gprc-microservice/gateway/cmd"
+	"github.com/abisalde/gprc-microservice/gateway/internal/graph/resolvers"
 )
 
 type HealthResponse struct {
@@ -16,16 +16,6 @@ type HealthResponse struct {
 	Timestamp time.Time `json:"timestamp"`
 	Service   string    `json:"service"`
 	Version   string    `json:"version"`
-}
-
-func helloHandler(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/" {
-		http.NotFound(w, r)
-		return
-	}
-
-	fmt.Fprintln(w, "Hello, Authentication Service")
-	log.Printf("Received request on / from %s", r.RemoteAddr)
 }
 
 func healthHandler(w http.ResponseWriter, r *http.Request) {
@@ -55,38 +45,21 @@ func healthHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 
-	// server := &http.Server{
-	// 	Addr:         ":8080",
-	// 	ReadTimeout:  10 * time.Second,
-	// 	WriteTimeout: 10 * time.Second,
-	// 	IdleTimeout:  60 * time.Second,
-	// }
+	authURL := "auth:50051"
+	catalogURL := "catalog:50052"
 
-	log.Println("Authentication Service starting on :8080")
-	log.Println("Endpoints available:")
-	log.Println("  - http://localhost:8080/")
-	log.Println("  - http://localhost:8080/health")
+	resolvers, err := resolvers.NewResolverGraphServer(authURL, catalogURL)
 
-	// s, err := server.NewGraphQLServer()
-
-	// 	authService := auth.NewService(authClient)
-
-	// // Configure GraphQL server
-	// srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{
-	// 	Resolvers: &graph.Resolver{
-	// 		AuthService: authService,
-	// 	},
-	// }))
+	if err != nil {
+		log.Fatalf("❌ Failed to setup all client 🎛️: %v", err)
+	}
 
 	http.HandleFunc("/health", healthHandler)
 
-	http.Handle("/", playground.ApolloSandboxHandler("GraphQL playground", "/query"))
-	// http.Handle("/query", srv)
+	gqlSrv, port := server.SetupGraphQLServer(resolvers)
 
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8080"
-	}
+	http.Handle("/", playground.ApolloSandboxHandler("Microservice GraphQL playground", "/query"))
+	http.Handle("/query", gqlSrv)
 
 	log.Printf("🚀 Gateway server running on http://localhost:%s", port)
 	log.Fatal(http.ListenAndServe(":"+port, nil))

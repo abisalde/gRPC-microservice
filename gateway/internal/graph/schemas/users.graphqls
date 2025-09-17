@@ -26,5 +26,6 @@ extend type Query {
 	"""
 	The logged in user profile details
 	"""
-	profile: User! @auth(requires: USER)
+	profile: User!
+	# @auth(requires: USER)
 }

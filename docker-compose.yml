@@ -12,7 +12,14 @@ services:
     ports:
       - '50051:50051'
     healthcheck:
-      test: ['CMD', 'curl', '-f', 'http://localhost:50051/health']
+      test:
+        [
+          'CMD',
+          'grpcurl',
+          '-plaintext',
+          'localhost:50051',
+          'grpc.health.v1.Health/Check',
+        ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -32,7 +39,14 @@ services:
     ports:
       - '50052:50052'
     healthcheck:
-      test: ['CMD', 'curl', '-f', 'http://localhost:50052/health']
+      test:
+        [
+          'CMD',
+          'grpcurl',
+          '-plaintext',
+          'localhost:50052',
+          'grpc.health.v1.Health/Check',
+        ]
       interval: 10s
       timeout: 5s
       retries: 5

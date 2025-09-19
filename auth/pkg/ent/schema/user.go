@@ -126,7 +126,9 @@ func (User) Indexes() []ent.Index {
 
 func (User) Annotations() []schema.Annotation {
 	return []schema.Annotation{
-		entproto.Message(),
+		entproto.Message(
+			entproto.PackageName("auth_pbuf"),
+		),
 		entproto.Service(),
 	}
 }

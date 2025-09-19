@@ -5,8 +5,8 @@ package ent
 import (
 	"time"
 
-	"github.com/abisalde/gprc-microservice/auth/pkg/ent/schema"
-	"github.com/abisalde/gprc-microservice/auth/pkg/ent/user"
+	"github.com/abisalde/grpc-microservice/auth/pkg/ent/schema"
+	"github.com/abisalde/grpc-microservice/auth/pkg/ent/user"
 )
 
 // The init function reads all schema descriptors with runtime code

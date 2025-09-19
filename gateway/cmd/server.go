@@ -10,8 +10,8 @@ import (
 	"github.com/99designs/gqlgen/graphql/handler/extension"
 	"github.com/99designs/gqlgen/graphql/handler/lru"
 	"github.com/99designs/gqlgen/graphql/handler/transport"
-	"github.com/abisalde/gprc-microservice/gateway/internal/graph"
-	"github.com/abisalde/gprc-microservice/gateway/internal/graph/resolvers"
+	"github.com/abisalde/grpc-microservice/gateway/internal/graph"
+	"github.com/abisalde/grpc-microservice/gateway/internal/graph/resolvers"
 	"github.com/vektah/gqlparser/v2/ast"
 )
 

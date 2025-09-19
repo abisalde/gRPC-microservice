@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"entgo.io/ent/dialect/sql"
-	"github.com/abisalde/gprc-microservice/auth/pkg/ent/predicate"
+	"github.com/abisalde/grpc-microservice/auth/pkg/ent/predicate"
 )
 
 // ID filters vertices based on their ID field.

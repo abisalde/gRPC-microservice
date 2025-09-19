@@ -5,9 +5,9 @@ import (
 	"errors"
 	"time"
 
-	"github.com/abisalde/gprc-microservice/catalog/internal/model"
-	"github.com/abisalde/gprc-microservice/catalog/internal/repository"
-	"github.com/abisalde/gprc-microservice/catalog/pkg/ent"
+	"github.com/abisalde/grpc-microservice/catalog/internal/model"
+	"github.com/abisalde/grpc-microservice/catalog/internal/repository"
+	"github.com/abisalde/grpc-microservice/catalog/pkg/ent"
 	"github.com/google/uuid"
 )
 

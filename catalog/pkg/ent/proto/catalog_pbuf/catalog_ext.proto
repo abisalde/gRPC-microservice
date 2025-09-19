@@ -1,13 +1,13 @@
 syntax = "proto3";
 
-package entpb;
+package catalog_pbuf;
 
-import "entpb/entpb.proto";
+import "catalog_pbuf/catalog_pbuf.proto";
 
 
 import "google/protobuf/wrappers.proto";
 
-option go_package = "github.com/abisalde/gprc-microservice/catalog/pkg/ent/proto/entpb";
+option go_package = "github.com/abisalde/grpc-microservice/catalog/pkg/ent/proto/catalog_pbuf";
 
 
 service CatalogExtendedService {
@@ -37,7 +37,7 @@ message GetProductsRequest {
 }
 
 message GetProductsResponse {
-  repeated entpb.Catalog products = 1;
+  repeated catalog_pbuf.Catalog products = 1;
 
   string next_page_token = 2;
 

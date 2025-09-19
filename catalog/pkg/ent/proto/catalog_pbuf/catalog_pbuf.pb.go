@@ -4,19 +4,20 @@
 // versions:
 // 	protoc-gen-go v1.36.9
 // 	protoc        v6.32.0
-// source: entpb/entpb.proto
+// source: catalog_pbuf/catalog_pbuf.proto
 
-package entpb
+package catalog_pbuf
 
 import (
+	reflect "reflect"
+	sync "sync"
+	unsafe "unsafe"
+
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
-	reflect "reflect"
-	sync "sync"
-	unsafe "unsafe"
 )
 
 const (
@@ -59,11 +60,11 @@ func (x GetCatalogRequest_View) String() string {
 }
 
 func (GetCatalogRequest_View) Descriptor() protoreflect.EnumDescriptor {
-	return file_entpb_entpb_proto_enumTypes[0].Descriptor()
+	return file_catalog_pbuf_catalog_pbuf_proto_enumTypes[0].Descriptor()
 }
 
 func (GetCatalogRequest_View) Type() protoreflect.EnumType {
-	return &file_entpb_entpb_proto_enumTypes[0]
+	return &file_catalog_pbuf_catalog_pbuf_proto_enumTypes[0]
 }
 
 func (x GetCatalogRequest_View) Number() protoreflect.EnumNumber {
@@ -72,7 +73,7 @@ func (x GetCatalogRequest_View) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use GetCatalogRequest_View.Descriptor instead.
 func (GetCatalogRequest_View) EnumDescriptor() ([]byte, []int) {
-	return file_entpb_entpb_proto_rawDescGZIP(), []int{2, 0}
+	return file_catalog_pbuf_catalog_pbuf_proto_rawDescGZIP(), []int{2, 0}
 }
 
 type ListCatalogRequest_View int32
@@ -108,11 +109,11 @@ func (x ListCatalogRequest_View) String() string {
 }
 
 func (ListCatalogRequest_View) Descriptor() protoreflect.EnumDescriptor {
-	return file_entpb_entpb_proto_enumTypes[1].Descriptor()
+	return file_catalog_pbuf_catalog_pbuf_proto_enumTypes[1].Descriptor()
 }
 
 func (ListCatalogRequest_View) Type() protoreflect.EnumType {
-	return &file_entpb_entpb_proto_enumTypes[1]
+	return &file_catalog_pbuf_catalog_pbuf_proto_enumTypes[1]
 }
 
 func (x ListCatalogRequest_View) Number() protoreflect.EnumNumber {
@@ -121,7 +122,7 @@ func (x ListCatalogRequest_View) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use ListCatalogRequest_View.Descriptor instead.
 func (ListCatalogRequest_View) EnumDescriptor() ([]byte, []int) {
-	return file_entpb_entpb_proto_rawDescGZIP(), []int{5, 0}
+	return file_catalog_pbuf_catalog_pbuf_proto_rawDescGZIP(), []int{5, 0}
 }
 
 type Catalog struct {
@@ -139,7 +140,7 @@ type Catalog struct {
 
 func (x *Catalog) Reset() {
 	*x = Catalog{}
-	mi := &file_entpb_entpb_proto_msgTypes[0]
+	mi := &file_catalog_pbuf_catalog_pbuf_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -151,7 +152,7 @@ func (x *Catalog) String() string {
 func (*Catalog) ProtoMessage() {}
 
 func (x *Catalog) ProtoReflect() protoreflect.Message {
-	mi := &file_entpb_entpb_proto_msgTypes[0]
+	mi := &file_catalog_pbuf_catalog_pbuf_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -164,7 +165,7 @@ func (x *Catalog) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Catalog.ProtoReflect.Descriptor instead.
 func (*Catalog) Descriptor() ([]byte, []int) {
-	return file_entpb_entpb_proto_rawDescGZIP(), []int{0}
+	return file_catalog_pbuf_catalog_pbuf_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Catalog) GetId() []byte {
@@ -225,7 +226,7 @@ type CreateCatalogRequest struct {
 
 func (x *CreateCatalogRequest) Reset() {
 	*x = CreateCatalogRequest{}
-	mi := &file_entpb_entpb_proto_msgTypes[1]
+	mi := &file_catalog_pbuf_catalog_pbuf_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -237,7 +238,7 @@ func (x *CreateCatalogRequest) String() string {
 func (*CreateCatalogRequest) ProtoMessage() {}
 
 func (x *CreateCatalogRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_entpb_entpb_proto_msgTypes[1]
+	mi := &file_catalog_pbuf_catalog_pbuf_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -250,7 +251,7 @@ func (x *CreateCatalogRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateCatalogRequest.ProtoReflect.Descriptor instead.
 func (*CreateCatalogRequest) Descriptor() ([]byte, []int) {
-	return file_entpb_entpb_proto_rawDescGZIP(), []int{1}
+	return file_catalog_pbuf_catalog_pbuf_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *CreateCatalogRequest) GetCatalog() *Catalog {
@@ -263,14 +264,14 @@ func (x *CreateCatalogRequest) GetCatalog() *Catalog {
 type GetCatalogRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            []byte                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	View          GetCatalogRequest_View `protobuf:"varint,2,opt,name=view,proto3,enum=entpb.GetCatalogRequest_View" json:"view,omitempty"`
+	View          GetCatalogRequest_View `protobuf:"varint,2,opt,name=view,proto3,enum=catalog_pbuf.GetCatalogRequest_View" json:"view,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *GetCatalogRequest) Reset() {
 	*x = GetCatalogRequest{}
-	mi := &file_entpb_entpb_proto_msgTypes[2]
+	mi := &file_catalog_pbuf_catalog_pbuf_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -282,7 +283,7 @@ func (x *GetCatalogRequest) String() string {
 func (*GetCatalogRequest) ProtoMessage() {}
 
 func (x *GetCatalogRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_entpb_entpb_proto_msgTypes[2]
+	mi := &file_catalog_pbuf_catalog_pbuf_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -295,7 +296,7 @@ func (x *GetCatalogRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCatalogRequest.ProtoReflect.Descriptor instead.
 func (*GetCatalogRequest) Descriptor() ([]byte, []int) {
-	return file_entpb_entpb_proto_rawDescGZIP(), []int{2}
+	return file_catalog_pbuf_catalog_pbuf_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *GetCatalogRequest) GetId() []byte {
@@ -321,7 +322,7 @@ type UpdateCatalogRequest struct {
 
 func (x *UpdateCatalogRequest) Reset() {
 	*x = UpdateCatalogRequest{}
-	mi := &file_entpb_entpb_proto_msgTypes[3]
+	mi := &file_catalog_pbuf_catalog_pbuf_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -333,7 +334,7 @@ func (x *UpdateCatalogRequest) String() string {
 func (*UpdateCatalogRequest) ProtoMessage() {}
 
 func (x *UpdateCatalogRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_entpb_entpb_proto_msgTypes[3]
+	mi := &file_catalog_pbuf_catalog_pbuf_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -346,7 +347,7 @@ func (x *UpdateCatalogRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateCatalogRequest.ProtoReflect.Descriptor instead.
 func (*UpdateCatalogRequest) Descriptor() ([]byte, []int) {
-	return file_entpb_entpb_proto_rawDescGZIP(), []int{3}
+	return file_catalog_pbuf_catalog_pbuf_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *UpdateCatalogRequest) GetCatalog() *Catalog {
@@ -365,7 +366,7 @@ type DeleteCatalogRequest struct {
 
 func (x *DeleteCatalogRequest) Reset() {
 	*x = DeleteCatalogRequest{}
-	mi := &file_entpb_entpb_proto_msgTypes[4]
+	mi := &file_catalog_pbuf_catalog_pbuf_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -377,7 +378,7 @@ func (x *DeleteCatalogRequest) String() string {
 func (*DeleteCatalogRequest) ProtoMessage() {}
 
 func (x *DeleteCatalogRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_entpb_entpb_proto_msgTypes[4]
+	mi := &file_catalog_pbuf_catalog_pbuf_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -390,7 +391,7 @@ func (x *DeleteCatalogRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteCatalogRequest.ProtoReflect.Descriptor instead.
 func (*DeleteCatalogRequest) Descriptor() ([]byte, []int) {
-	return file_entpb_entpb_proto_rawDescGZIP(), []int{4}
+	return file_catalog_pbuf_catalog_pbuf_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *DeleteCatalogRequest) GetId() []byte {
@@ -404,14 +405,14 @@ type ListCatalogRequest struct {
 	state         protoimpl.MessageState  `protogen:"open.v1"`
 	PageSize      int32                   `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	PageToken     string                  `protobuf:"bytes,2,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
-	View          ListCatalogRequest_View `protobuf:"varint,3,opt,name=view,proto3,enum=entpb.ListCatalogRequest_View" json:"view,omitempty"`
+	View          ListCatalogRequest_View `protobuf:"varint,3,opt,name=view,proto3,enum=catalog_pbuf.ListCatalogRequest_View" json:"view,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ListCatalogRequest) Reset() {
 	*x = ListCatalogRequest{}
-	mi := &file_entpb_entpb_proto_msgTypes[5]
+	mi := &file_catalog_pbuf_catalog_pbuf_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -423,7 +424,7 @@ func (x *ListCatalogRequest) String() string {
 func (*ListCatalogRequest) ProtoMessage() {}
 
 func (x *ListCatalogRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_entpb_entpb_proto_msgTypes[5]
+	mi := &file_catalog_pbuf_catalog_pbuf_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -436,7 +437,7 @@ func (x *ListCatalogRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListCatalogRequest.ProtoReflect.Descriptor instead.
 func (*ListCatalogRequest) Descriptor() ([]byte, []int) {
-	return file_entpb_entpb_proto_rawDescGZIP(), []int{5}
+	return file_catalog_pbuf_catalog_pbuf_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *ListCatalogRequest) GetPageSize() int32 {
@@ -470,7 +471,7 @@ type ListCatalogResponse struct {
 
 func (x *ListCatalogResponse) Reset() {
 	*x = ListCatalogResponse{}
-	mi := &file_entpb_entpb_proto_msgTypes[6]
+	mi := &file_catalog_pbuf_catalog_pbuf_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -482,7 +483,7 @@ func (x *ListCatalogResponse) String() string {
 func (*ListCatalogResponse) ProtoMessage() {}
 
 func (x *ListCatalogResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_entpb_entpb_proto_msgTypes[6]
+	mi := &file_catalog_pbuf_catalog_pbuf_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -495,7 +496,7 @@ func (x *ListCatalogResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListCatalogResponse.ProtoReflect.Descriptor instead.
 func (*ListCatalogResponse) Descriptor() ([]byte, []int) {
-	return file_entpb_entpb_proto_rawDescGZIP(), []int{6}
+	return file_catalog_pbuf_catalog_pbuf_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *ListCatalogResponse) GetCatalogList() []*Catalog {
@@ -521,7 +522,7 @@ type BatchCreateCatalogsRequest struct {
 
 func (x *BatchCreateCatalogsRequest) Reset() {
 	*x = BatchCreateCatalogsRequest{}
-	mi := &file_entpb_entpb_proto_msgTypes[7]
+	mi := &file_catalog_pbuf_catalog_pbuf_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -533,7 +534,7 @@ func (x *BatchCreateCatalogsRequest) String() string {
 func (*BatchCreateCatalogsRequest) ProtoMessage() {}
 
 func (x *BatchCreateCatalogsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_entpb_entpb_proto_msgTypes[7]
+	mi := &file_catalog_pbuf_catalog_pbuf_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -546,7 +547,7 @@ func (x *BatchCreateCatalogsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BatchCreateCatalogsRequest.ProtoReflect.Descriptor instead.
 func (*BatchCreateCatalogsRequest) Descriptor() ([]byte, []int) {
-	return file_entpb_entpb_proto_rawDescGZIP(), []int{7}
+	return file_catalog_pbuf_catalog_pbuf_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *BatchCreateCatalogsRequest) GetRequests() []*CreateCatalogRequest {
@@ -565,7 +566,7 @@ type BatchCreateCatalogsResponse struct {
 
 func (x *BatchCreateCatalogsResponse) Reset() {
 	*x = BatchCreateCatalogsResponse{}
-	mi := &file_entpb_entpb_proto_msgTypes[8]
+	mi := &file_catalog_pbuf_catalog_pbuf_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -577,7 +578,7 @@ func (x *BatchCreateCatalogsResponse) String() string {
 func (*BatchCreateCatalogsResponse) ProtoMessage() {}
 
 func (x *BatchCreateCatalogsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_entpb_entpb_proto_msgTypes[8]
+	mi := &file_catalog_pbuf_catalog_pbuf_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -590,7 +591,7 @@ func (x *BatchCreateCatalogsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BatchCreateCatalogsResponse.ProtoReflect.Descriptor instead.
 func (*BatchCreateCatalogsResponse) Descriptor() ([]byte, []int) {
-	return file_entpb_entpb_proto_rawDescGZIP(), []int{8}
+	return file_catalog_pbuf_catalog_pbuf_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *BatchCreateCatalogsResponse) GetCatalogs() []*Catalog {
@@ -600,11 +601,11 @@ func (x *BatchCreateCatalogsResponse) GetCatalogs() []*Catalog {
 	return nil
 }
 
-var File_entpb_entpb_proto protoreflect.FileDescriptor
+var File_catalog_pbuf_catalog_pbuf_proto protoreflect.FileDescriptor
 
-const file_entpb_entpb_proto_rawDesc = "" +
+const file_catalog_pbuf_catalog_pbuf_proto_rawDesc = "" +
 	"\n" +
-	"\x11entpb/entpb.proto\x12\x05entpb\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1egoogle/protobuf/wrappers.proto\"\xb4\x02\n" +
+	"\x1fcatalog_pbuf/catalog_pbuf.proto\x12\fcatalog_pbuf\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1egoogle/protobuf/wrappers.proto\"\xb4\x02\n" +
 	"\aCatalog\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\fR\x02id\x129\n" +
 	"\n" +
@@ -616,98 +617,98 @@ const file_entpb_entpb_proto_rawDesc = "" +
 	" \x01(\v2\x1a.google.protobuf.TimestampR\tdeletedAt\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12>\n" +
 	"\vdescription\x18\x03 \x01(\v2\x1c.google.protobuf.StringValueR\vdescription\x12\x14\n" +
-	"\x05price\x18\x04 \x01(\x01R\x05price\"@\n" +
-	"\x14CreateCatalogRequest\x12(\n" +
-	"\acatalog\x18\x01 \x01(\v2\x0e.entpb.CatalogR\acatalog\"\x92\x01\n" +
+	"\x05price\x18\x04 \x01(\x01R\x05price\"G\n" +
+	"\x14CreateCatalogRequest\x12/\n" +
+	"\acatalog\x18\x01 \x01(\v2\x15.catalog_pbuf.CatalogR\acatalog\"\x99\x01\n" +
 	"\x11GetCatalogRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\fR\x02id\x121\n" +
-	"\x04view\x18\x02 \x01(\x0e2\x1d.entpb.GetCatalogRequest.ViewR\x04view\":\n" +
+	"\x02id\x18\x01 \x01(\fR\x02id\x128\n" +
+	"\x04view\x18\x02 \x01(\x0e2$.catalog_pbuf.GetCatalogRequest.ViewR\x04view\":\n" +
 	"\x04View\x12\x14\n" +
 	"\x10VIEW_UNSPECIFIED\x10\x00\x12\t\n" +
 	"\x05BASIC\x10\x01\x12\x11\n" +
-	"\rWITH_EDGE_IDS\x10\x02\"@\n" +
-	"\x14UpdateCatalogRequest\x12(\n" +
-	"\acatalog\x18\x01 \x01(\v2\x0e.entpb.CatalogR\acatalog\"&\n" +
+	"\rWITH_EDGE_IDS\x10\x02\"G\n" +
+	"\x14UpdateCatalogRequest\x12/\n" +
+	"\acatalog\x18\x01 \x01(\v2\x15.catalog_pbuf.CatalogR\acatalog\"&\n" +
 	"\x14DeleteCatalogRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\fR\x02id\"\xc0\x01\n" +
+	"\x02id\x18\x01 \x01(\fR\x02id\"\xc7\x01\n" +
 	"\x12ListCatalogRequest\x12\x1b\n" +
 	"\tpage_size\x18\x01 \x01(\x05R\bpageSize\x12\x1d\n" +
 	"\n" +
-	"page_token\x18\x02 \x01(\tR\tpageToken\x122\n" +
-	"\x04view\x18\x03 \x01(\x0e2\x1e.entpb.ListCatalogRequest.ViewR\x04view\":\n" +
+	"page_token\x18\x02 \x01(\tR\tpageToken\x129\n" +
+	"\x04view\x18\x03 \x01(\x0e2%.catalog_pbuf.ListCatalogRequest.ViewR\x04view\":\n" +
 	"\x04View\x12\x14\n" +
 	"\x10VIEW_UNSPECIFIED\x10\x00\x12\t\n" +
 	"\x05BASIC\x10\x01\x12\x11\n" +
-	"\rWITH_EDGE_IDS\x10\x02\"p\n" +
-	"\x13ListCatalogResponse\x121\n" +
-	"\fcatalog_list\x18\x01 \x03(\v2\x0e.entpb.CatalogR\vcatalogList\x12&\n" +
-	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\"U\n" +
-	"\x1aBatchCreateCatalogsRequest\x127\n" +
-	"\brequests\x18\x01 \x03(\v2\x1b.entpb.CreateCatalogRequestR\brequests\"I\n" +
-	"\x1bBatchCreateCatalogsResponse\x12*\n" +
-	"\bcatalogs\x18\x01 \x03(\v2\x0e.entpb.CatalogR\bcatalogs2\x83\x03\n" +
-	"\x0eCatalogService\x125\n" +
-	"\x06Create\x12\x1b.entpb.CreateCatalogRequest\x1a\x0e.entpb.Catalog\x12/\n" +
-	"\x03Get\x12\x18.entpb.GetCatalogRequest\x1a\x0e.entpb.Catalog\x125\n" +
-	"\x06Update\x12\x1b.entpb.UpdateCatalogRequest\x1a\x0e.entpb.Catalog\x12=\n" +
-	"\x06Delete\x12\x1b.entpb.DeleteCatalogRequest\x1a\x16.google.protobuf.Empty\x12=\n" +
-	"\x04List\x12\x19.entpb.ListCatalogRequest\x1a\x1a.entpb.ListCatalogResponse\x12T\n" +
-	"\vBatchCreate\x12!.entpb.BatchCreateCatalogsRequest\x1a\".entpb.BatchCreateCatalogsResponseBCZAgithub.com/abisalde/gprc-microservice/catalog/pkg/ent/proto/entpbb\x06proto3"
+	"\rWITH_EDGE_IDS\x10\x02\"w\n" +
+	"\x13ListCatalogResponse\x128\n" +
+	"\fcatalog_list\x18\x01 \x03(\v2\x15.catalog_pbuf.CatalogR\vcatalogList\x12&\n" +
+	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\"\\\n" +
+	"\x1aBatchCreateCatalogsRequest\x12>\n" +
+	"\brequests\x18\x01 \x03(\v2\".catalog_pbuf.CreateCatalogRequestR\brequests\"P\n" +
+	"\x1bBatchCreateCatalogsResponse\x121\n" +
+	"\bcatalogs\x18\x01 \x03(\v2\x15.catalog_pbuf.CatalogR\bcatalogs2\xd0\x03\n" +
+	"\x0eCatalogService\x12C\n" +
+	"\x06Create\x12\".catalog_pbuf.CreateCatalogRequest\x1a\x15.catalog_pbuf.Catalog\x12=\n" +
+	"\x03Get\x12\x1f.catalog_pbuf.GetCatalogRequest\x1a\x15.catalog_pbuf.Catalog\x12C\n" +
+	"\x06Update\x12\".catalog_pbuf.UpdateCatalogRequest\x1a\x15.catalog_pbuf.Catalog\x12D\n" +
+	"\x06Delete\x12\".catalog_pbuf.DeleteCatalogRequest\x1a\x16.google.protobuf.Empty\x12K\n" +
+	"\x04List\x12 .catalog_pbuf.ListCatalogRequest\x1a!.catalog_pbuf.ListCatalogResponse\x12b\n" +
+	"\vBatchCreate\x12(.catalog_pbuf.BatchCreateCatalogsRequest\x1a).catalog_pbuf.BatchCreateCatalogsResponseBJZHgithub.com/abisalde/grpc-microservice/catalog/pkg/ent/proto/catalog_pbufb\x06proto3"
 
 var (
-	file_entpb_entpb_proto_rawDescOnce sync.Once
-	file_entpb_entpb_proto_rawDescData []byte
+	file_catalog_pbuf_catalog_pbuf_proto_rawDescOnce sync.Once
+	file_catalog_pbuf_catalog_pbuf_proto_rawDescData []byte
 )
 
-func file_entpb_entpb_proto_rawDescGZIP() []byte {
-	file_entpb_entpb_proto_rawDescOnce.Do(func() {
-		file_entpb_entpb_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_entpb_entpb_proto_rawDesc), len(file_entpb_entpb_proto_rawDesc)))
+func file_catalog_pbuf_catalog_pbuf_proto_rawDescGZIP() []byte {
+	file_catalog_pbuf_catalog_pbuf_proto_rawDescOnce.Do(func() {
+		file_catalog_pbuf_catalog_pbuf_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_catalog_pbuf_catalog_pbuf_proto_rawDesc), len(file_catalog_pbuf_catalog_pbuf_proto_rawDesc)))
 	})
-	return file_entpb_entpb_proto_rawDescData
+	return file_catalog_pbuf_catalog_pbuf_proto_rawDescData
 }
 
-var file_entpb_entpb_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_entpb_entpb_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
-var file_entpb_entpb_proto_goTypes = []any{
-	(GetCatalogRequest_View)(0),         // 0: entpb.GetCatalogRequest.View
-	(ListCatalogRequest_View)(0),        // 1: entpb.ListCatalogRequest.View
-	(*Catalog)(nil),                     // 2: entpb.Catalog
-	(*CreateCatalogRequest)(nil),        // 3: entpb.CreateCatalogRequest
-	(*GetCatalogRequest)(nil),           // 4: entpb.GetCatalogRequest
-	(*UpdateCatalogRequest)(nil),        // 5: entpb.UpdateCatalogRequest
-	(*DeleteCatalogRequest)(nil),        // 6: entpb.DeleteCatalogRequest
-	(*ListCatalogRequest)(nil),          // 7: entpb.ListCatalogRequest
-	(*ListCatalogResponse)(nil),         // 8: entpb.ListCatalogResponse
-	(*BatchCreateCatalogsRequest)(nil),  // 9: entpb.BatchCreateCatalogsRequest
-	(*BatchCreateCatalogsResponse)(nil), // 10: entpb.BatchCreateCatalogsResponse
+var file_catalog_pbuf_catalog_pbuf_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_catalog_pbuf_catalog_pbuf_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
+var file_catalog_pbuf_catalog_pbuf_proto_goTypes = []any{
+	(GetCatalogRequest_View)(0),         // 0: catalog_pbuf.GetCatalogRequest.View
+	(ListCatalogRequest_View)(0),        // 1: catalog_pbuf.ListCatalogRequest.View
+	(*Catalog)(nil),                     // 2: catalog_pbuf.Catalog
+	(*CreateCatalogRequest)(nil),        // 3: catalog_pbuf.CreateCatalogRequest
+	(*GetCatalogRequest)(nil),           // 4: catalog_pbuf.GetCatalogRequest
+	(*UpdateCatalogRequest)(nil),        // 5: catalog_pbuf.UpdateCatalogRequest
+	(*DeleteCatalogRequest)(nil),        // 6: catalog_pbuf.DeleteCatalogRequest
+	(*ListCatalogRequest)(nil),          // 7: catalog_pbuf.ListCatalogRequest
+	(*ListCatalogResponse)(nil),         // 8: catalog_pbuf.ListCatalogResponse
+	(*BatchCreateCatalogsRequest)(nil),  // 9: catalog_pbuf.BatchCreateCatalogsRequest
+	(*BatchCreateCatalogsResponse)(nil), // 10: catalog_pbuf.BatchCreateCatalogsResponse
 	(*timestamppb.Timestamp)(nil),       // 11: google.protobuf.Timestamp
 	(*wrapperspb.StringValue)(nil),      // 12: google.protobuf.StringValue
 	(*emptypb.Empty)(nil),               // 13: google.protobuf.Empty
 }
-var file_entpb_entpb_proto_depIdxs = []int32{
-	11, // 0: entpb.Catalog.created_at:type_name -> google.protobuf.Timestamp
-	11, // 1: entpb.Catalog.updated_at:type_name -> google.protobuf.Timestamp
-	11, // 2: entpb.Catalog.deleted_at:type_name -> google.protobuf.Timestamp
-	12, // 3: entpb.Catalog.description:type_name -> google.protobuf.StringValue
-	2,  // 4: entpb.CreateCatalogRequest.catalog:type_name -> entpb.Catalog
-	0,  // 5: entpb.GetCatalogRequest.view:type_name -> entpb.GetCatalogRequest.View
-	2,  // 6: entpb.UpdateCatalogRequest.catalog:type_name -> entpb.Catalog
-	1,  // 7: entpb.ListCatalogRequest.view:type_name -> entpb.ListCatalogRequest.View
-	2,  // 8: entpb.ListCatalogResponse.catalog_list:type_name -> entpb.Catalog
-	3,  // 9: entpb.BatchCreateCatalogsRequest.requests:type_name -> entpb.CreateCatalogRequest
-	2,  // 10: entpb.BatchCreateCatalogsResponse.catalogs:type_name -> entpb.Catalog
-	3,  // 11: entpb.CatalogService.Create:input_type -> entpb.CreateCatalogRequest
-	4,  // 12: entpb.CatalogService.Get:input_type -> entpb.GetCatalogRequest
-	5,  // 13: entpb.CatalogService.Update:input_type -> entpb.UpdateCatalogRequest
-	6,  // 14: entpb.CatalogService.Delete:input_type -> entpb.DeleteCatalogRequest
-	7,  // 15: entpb.CatalogService.List:input_type -> entpb.ListCatalogRequest
-	9,  // 16: entpb.CatalogService.BatchCreate:input_type -> entpb.BatchCreateCatalogsRequest
-	2,  // 17: entpb.CatalogService.Create:output_type -> entpb.Catalog
-	2,  // 18: entpb.CatalogService.Get:output_type -> entpb.Catalog
-	2,  // 19: entpb.CatalogService.Update:output_type -> entpb.Catalog
-	13, // 20: entpb.CatalogService.Delete:output_type -> google.protobuf.Empty
-	8,  // 21: entpb.CatalogService.List:output_type -> entpb.ListCatalogResponse
-	10, // 22: entpb.CatalogService.BatchCreate:output_type -> entpb.BatchCreateCatalogsResponse
+var file_catalog_pbuf_catalog_pbuf_proto_depIdxs = []int32{
+	11, // 0: catalog_pbuf.Catalog.created_at:type_name -> google.protobuf.Timestamp
+	11, // 1: catalog_pbuf.Catalog.updated_at:type_name -> google.protobuf.Timestamp
+	11, // 2: catalog_pbuf.Catalog.deleted_at:type_name -> google.protobuf.Timestamp
+	12, // 3: catalog_pbuf.Catalog.description:type_name -> google.protobuf.StringValue
+	2,  // 4: catalog_pbuf.CreateCatalogRequest.catalog:type_name -> catalog_pbuf.Catalog
+	0,  // 5: catalog_pbuf.GetCatalogRequest.view:type_name -> catalog_pbuf.GetCatalogRequest.View
+	2,  // 6: catalog_pbuf.UpdateCatalogRequest.catalog:type_name -> catalog_pbuf.Catalog
+	1,  // 7: catalog_pbuf.ListCatalogRequest.view:type_name -> catalog_pbuf.ListCatalogRequest.View
+	2,  // 8: catalog_pbuf.ListCatalogResponse.catalog_list:type_name -> catalog_pbuf.Catalog
+	3,  // 9: catalog_pbuf.BatchCreateCatalogsRequest.requests:type_name -> catalog_pbuf.CreateCatalogRequest
+	2,  // 10: catalog_pbuf.BatchCreateCatalogsResponse.catalogs:type_name -> catalog_pbuf.Catalog
+	3,  // 11: catalog_pbuf.CatalogService.Create:input_type -> catalog_pbuf.CreateCatalogRequest
+	4,  // 12: catalog_pbuf.CatalogService.Get:input_type -> catalog_pbuf.GetCatalogRequest
+	5,  // 13: catalog_pbuf.CatalogService.Update:input_type -> catalog_pbuf.UpdateCatalogRequest
+	6,  // 14: catalog_pbuf.CatalogService.Delete:input_type -> catalog_pbuf.DeleteCatalogRequest
+	7,  // 15: catalog_pbuf.CatalogService.List:input_type -> catalog_pbuf.ListCatalogRequest
+	9,  // 16: catalog_pbuf.CatalogService.BatchCreate:input_type -> catalog_pbuf.BatchCreateCatalogsRequest
+	2,  // 17: catalog_pbuf.CatalogService.Create:output_type -> catalog_pbuf.Catalog
+	2,  // 18: catalog_pbuf.CatalogService.Get:output_type -> catalog_pbuf.Catalog
+	2,  // 19: catalog_pbuf.CatalogService.Update:output_type -> catalog_pbuf.Catalog
+	13, // 20: catalog_pbuf.CatalogService.Delete:output_type -> google.protobuf.Empty
+	8,  // 21: catalog_pbuf.CatalogService.List:output_type -> catalog_pbuf.ListCatalogResponse
+	10, // 22: catalog_pbuf.CatalogService.BatchCreate:output_type -> catalog_pbuf.BatchCreateCatalogsResponse
 	17, // [17:23] is the sub-list for method output_type
 	11, // [11:17] is the sub-list for method input_type
 	11, // [11:11] is the sub-list for extension type_name
@@ -715,27 +716,27 @@ var file_entpb_entpb_proto_depIdxs = []int32{
 	0,  // [0:11] is the sub-list for field type_name
 }
 
-func init() { file_entpb_entpb_proto_init() }
-func file_entpb_entpb_proto_init() {
-	if File_entpb_entpb_proto != nil {
+func init() { file_catalog_pbuf_catalog_pbuf_proto_init() }
+func file_catalog_pbuf_catalog_pbuf_proto_init() {
+	if File_catalog_pbuf_catalog_pbuf_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_entpb_entpb_proto_rawDesc), len(file_entpb_entpb_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_catalog_pbuf_catalog_pbuf_proto_rawDesc), len(file_catalog_pbuf_catalog_pbuf_proto_rawDesc)),
 			NumEnums:      2,
 			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_entpb_entpb_proto_goTypes,
-		DependencyIndexes: file_entpb_entpb_proto_depIdxs,
-		EnumInfos:         file_entpb_entpb_proto_enumTypes,
-		MessageInfos:      file_entpb_entpb_proto_msgTypes,
+		GoTypes:           file_catalog_pbuf_catalog_pbuf_proto_goTypes,
+		DependencyIndexes: file_catalog_pbuf_catalog_pbuf_proto_depIdxs,
+		EnumInfos:         file_catalog_pbuf_catalog_pbuf_proto_enumTypes,
+		MessageInfos:      file_catalog_pbuf_catalog_pbuf_proto_msgTypes,
 	}.Build()
-	File_entpb_entpb_proto = out.File
-	file_entpb_entpb_proto_goTypes = nil
-	file_entpb_entpb_proto_depIdxs = nil
+	File_catalog_pbuf_catalog_pbuf_proto = out.File
+	file_catalog_pbuf_catalog_pbuf_proto_goTypes = nil
+	file_catalog_pbuf_catalog_pbuf_proto_depIdxs = nil
 }

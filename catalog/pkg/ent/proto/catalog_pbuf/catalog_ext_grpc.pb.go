@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v6.32.0
-// source: entpb/catalog_ext.proto
+// source: catalog_pbuf/catalog_ext.proto
 
-package entpb
+package catalog_pbuf
 
 import (
 	context "context"
@@ -19,7 +19,7 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	CatalogExtendedService_GetProducts_FullMethodName = "/entpb.CatalogExtendedService/GetProducts"
+	CatalogExtendedService_GetProducts_FullMethodName = "/catalog_pbuf.CatalogExtendedService/GetProducts"
 )
 
 // CatalogExtendedServiceClient is the client API for CatalogExtendedService service.
@@ -109,7 +109,7 @@ func _CatalogExtendedService_GetProducts_Handler(srv interface{}, ctx context.Co
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var CatalogExtendedService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "entpb.CatalogExtendedService",
+	ServiceName: "catalog_pbuf.CatalogExtendedService",
 	HandlerType: (*CatalogExtendedServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -118,5 +118,5 @@ var CatalogExtendedService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "entpb/catalog_ext.proto",
+	Metadata: "catalog_pbuf/catalog_ext.proto",
 }

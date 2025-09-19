@@ -7,8 +7,8 @@ import (
 	"time"
 
 	"github.com/99designs/gqlgen/graphql/playground"
-	server "github.com/abisalde/gprc-microservice/gateway/cmd"
-	"github.com/abisalde/gprc-microservice/gateway/internal/graph/resolvers"
+	server "github.com/abisalde/grpc-microservice/gateway/cmd"
+	"github.com/abisalde/grpc-microservice/gateway/internal/graph/resolvers"
 )
 
 type HealthResponse struct {
@@ -45,8 +45,8 @@ func healthHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 
-	authURL := "auth:50051"
-	catalogURL := "catalog:50052"
+	authURL := "grpc-microservice-auth:50051"
+	catalogURL := "grpc-microservice-catalog:50052"
 
 	resolvers, err := resolvers.NewResolverGraphServer(authURL, catalogURL)
 
@@ -58,8 +58,8 @@ func main() {
 
 	gqlSrv, port := server.SetupGraphQLServer(resolvers)
 
-	http.Handle("/", playground.ApolloSandboxHandler("Microservice GraphQL playground", "/query"))
-	http.Handle("/query", gqlSrv)
+	http.Handle("/", playground.ApolloSandboxHandler("Microservice GraphQL playground", "/graphql"))
+	http.Handle("/graphql", gqlSrv)
 
 	log.Printf("🚀 Gateway server running on http://localhost:%s", port)
 	log.Fatal(http.ListenAndServe(":"+port, nil))

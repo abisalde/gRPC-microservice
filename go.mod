@@ -1,4 +1,4 @@
-module github.com/abisalde/gprc-microservice
+module github.com/abisalde/grpc-microservice
 
 go 1.25.1
 

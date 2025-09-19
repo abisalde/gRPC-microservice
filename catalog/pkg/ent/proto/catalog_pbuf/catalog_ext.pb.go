@@ -2,17 +2,18 @@
 // versions:
 // 	protoc-gen-go v1.36.9
 // 	protoc        v6.32.0
-// source: entpb/catalog_ext.proto
+// source: catalog_pbuf/catalog_ext.proto
 
-package entpb
+package catalog_pbuf
 
 import (
-	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
-	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
+
+	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
+	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 )
 
 const (
@@ -55,11 +56,11 @@ func (x GetProductsRequest_View) String() string {
 }
 
 func (GetProductsRequest_View) Descriptor() protoreflect.EnumDescriptor {
-	return file_entpb_catalog_ext_proto_enumTypes[0].Descriptor()
+	return file_catalog_pbuf_catalog_ext_proto_enumTypes[0].Descriptor()
 }
 
 func (GetProductsRequest_View) Type() protoreflect.EnumType {
-	return &file_entpb_catalog_ext_proto_enumTypes[0]
+	return &file_catalog_pbuf_catalog_ext_proto_enumTypes[0]
 }
 
 func (x GetProductsRequest_View) Number() protoreflect.EnumNumber {
@@ -68,7 +69,7 @@ func (x GetProductsRequest_View) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use GetProductsRequest_View.Descriptor instead.
 func (GetProductsRequest_View) EnumDescriptor() ([]byte, []int) {
-	return file_entpb_catalog_ext_proto_rawDescGZIP(), []int{0, 0}
+	return file_catalog_pbuf_catalog_ext_proto_rawDescGZIP(), []int{0, 0}
 }
 
 type GetProductsRequest struct {
@@ -76,7 +77,7 @@ type GetProductsRequest struct {
 	PageSize      int64                   `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	PageToken     string                  `protobuf:"bytes,2,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
 	Query         *wrapperspb.StringValue `protobuf:"bytes,3,opt,name=query,proto3" json:"query,omitempty"`
-	View          GetProductsRequest_View `protobuf:"varint,4,opt,name=view,proto3,enum=entpb.GetProductsRequest_View" json:"view,omitempty"`
+	View          GetProductsRequest_View `protobuf:"varint,4,opt,name=view,proto3,enum=catalog_pbuf.GetProductsRequest_View" json:"view,omitempty"`
 	Ids           []string                `protobuf:"bytes,5,rep,name=ids,proto3" json:"ids,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -84,7 +85,7 @@ type GetProductsRequest struct {
 
 func (x *GetProductsRequest) Reset() {
 	*x = GetProductsRequest{}
-	mi := &file_entpb_catalog_ext_proto_msgTypes[0]
+	mi := &file_catalog_pbuf_catalog_ext_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -96,7 +97,7 @@ func (x *GetProductsRequest) String() string {
 func (*GetProductsRequest) ProtoMessage() {}
 
 func (x *GetProductsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_entpb_catalog_ext_proto_msgTypes[0]
+	mi := &file_catalog_pbuf_catalog_ext_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -109,7 +110,7 @@ func (x *GetProductsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetProductsRequest.ProtoReflect.Descriptor instead.
 func (*GetProductsRequest) Descriptor() ([]byte, []int) {
-	return file_entpb_catalog_ext_proto_rawDescGZIP(), []int{0}
+	return file_catalog_pbuf_catalog_ext_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *GetProductsRequest) GetPageSize() int64 {
@@ -158,7 +159,7 @@ type GetProductsResponse struct {
 
 func (x *GetProductsResponse) Reset() {
 	*x = GetProductsResponse{}
-	mi := &file_entpb_catalog_ext_proto_msgTypes[1]
+	mi := &file_catalog_pbuf_catalog_ext_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -170,7 +171,7 @@ func (x *GetProductsResponse) String() string {
 func (*GetProductsResponse) ProtoMessage() {}
 
 func (x *GetProductsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_entpb_catalog_ext_proto_msgTypes[1]
+	mi := &file_catalog_pbuf_catalog_ext_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -183,7 +184,7 @@ func (x *GetProductsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetProductsResponse.ProtoReflect.Descriptor instead.
 func (*GetProductsResponse) Descriptor() ([]byte, []int) {
-	return file_entpb_catalog_ext_proto_rawDescGZIP(), []int{1}
+	return file_catalog_pbuf_catalog_ext_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *GetProductsResponse) GetProducts() []*Catalog {
@@ -207,57 +208,57 @@ func (x *GetProductsResponse) GetTotalCount() int64 {
 	return 0
 }
 
-var File_entpb_catalog_ext_proto protoreflect.FileDescriptor
+var File_catalog_pbuf_catalog_ext_proto protoreflect.FileDescriptor
 
-const file_entpb_catalog_ext_proto_rawDesc = "" +
+const file_catalog_pbuf_catalog_ext_proto_rawDesc = "" +
 	"\n" +
-	"\x17entpb/catalog_ext.proto\x12\x05entpb\x1a\x11entpb/entpb.proto\x1a\x1egoogle/protobuf/wrappers.proto\"\x86\x02\n" +
+	"\x1ecatalog_pbuf/catalog_ext.proto\x12\fcatalog_pbuf\x1a\x1fcatalog_pbuf/catalog_pbuf.proto\x1a\x1egoogle/protobuf/wrappers.proto\"\x8d\x02\n" +
 	"\x12GetProductsRequest\x12\x1b\n" +
 	"\tpage_size\x18\x01 \x01(\x03R\bpageSize\x12\x1d\n" +
 	"\n" +
 	"page_token\x18\x02 \x01(\tR\tpageToken\x122\n" +
-	"\x05query\x18\x03 \x01(\v2\x1c.google.protobuf.StringValueR\x05query\x122\n" +
-	"\x04view\x18\x04 \x01(\x0e2\x1e.entpb.GetProductsRequest.ViewR\x04view\x12\x10\n" +
+	"\x05query\x18\x03 \x01(\v2\x1c.google.protobuf.StringValueR\x05query\x129\n" +
+	"\x04view\x18\x04 \x01(\x0e2%.catalog_pbuf.GetProductsRequest.ViewR\x04view\x12\x10\n" +
 	"\x03ids\x18\x05 \x03(\tR\x03ids\":\n" +
 	"\x04View\x12\x14\n" +
 	"\x10VIEW_UNSPECIFIED\x10\x00\x12\t\n" +
 	"\x05BASIC\x10\x01\x12\x11\n" +
-	"\rWITH_EDGE_IDS\x10\x02\"\x8a\x01\n" +
-	"\x13GetProductsResponse\x12*\n" +
-	"\bproducts\x18\x01 \x03(\v2\x0e.entpb.CatalogR\bproducts\x12&\n" +
+	"\rWITH_EDGE_IDS\x10\x02\"\x91\x01\n" +
+	"\x13GetProductsResponse\x121\n" +
+	"\bproducts\x18\x01 \x03(\v2\x15.catalog_pbuf.CatalogR\bproducts\x12&\n" +
 	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\x12\x1f\n" +
 	"\vtotal_count\x18\x03 \x01(\x03R\n" +
-	"totalCount2^\n" +
-	"\x16CatalogExtendedService\x12D\n" +
-	"\vGetProducts\x12\x19.entpb.GetProductsRequest\x1a\x1a.entpb.GetProductsResponseBCZAgithub.com/abisalde/gprc-microservice/catalog/pkg/ent/proto/entpbb\x06proto3"
+	"totalCount2l\n" +
+	"\x16CatalogExtendedService\x12R\n" +
+	"\vGetProducts\x12 .catalog_pbuf.GetProductsRequest\x1a!.catalog_pbuf.GetProductsResponseBJZHgithub.com/abisalde/grpc-microservice/catalog/pkg/ent/proto/catalog_pbufb\x06proto3"
 
 var (
-	file_entpb_catalog_ext_proto_rawDescOnce sync.Once
-	file_entpb_catalog_ext_proto_rawDescData []byte
+	file_catalog_pbuf_catalog_ext_proto_rawDescOnce sync.Once
+	file_catalog_pbuf_catalog_ext_proto_rawDescData []byte
 )
 
-func file_entpb_catalog_ext_proto_rawDescGZIP() []byte {
-	file_entpb_catalog_ext_proto_rawDescOnce.Do(func() {
-		file_entpb_catalog_ext_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_entpb_catalog_ext_proto_rawDesc), len(file_entpb_catalog_ext_proto_rawDesc)))
+func file_catalog_pbuf_catalog_ext_proto_rawDescGZIP() []byte {
+	file_catalog_pbuf_catalog_ext_proto_rawDescOnce.Do(func() {
+		file_catalog_pbuf_catalog_ext_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_catalog_pbuf_catalog_ext_proto_rawDesc), len(file_catalog_pbuf_catalog_ext_proto_rawDesc)))
 	})
-	return file_entpb_catalog_ext_proto_rawDescData
+	return file_catalog_pbuf_catalog_ext_proto_rawDescData
 }
 
-var file_entpb_catalog_ext_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_entpb_catalog_ext_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
-var file_entpb_catalog_ext_proto_goTypes = []any{
-	(GetProductsRequest_View)(0),   // 0: entpb.GetProductsRequest.View
-	(*GetProductsRequest)(nil),     // 1: entpb.GetProductsRequest
-	(*GetProductsResponse)(nil),    // 2: entpb.GetProductsResponse
+var file_catalog_pbuf_catalog_ext_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_catalog_pbuf_catalog_ext_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_catalog_pbuf_catalog_ext_proto_goTypes = []any{
+	(GetProductsRequest_View)(0),   // 0: catalog_pbuf.GetProductsRequest.View
+	(*GetProductsRequest)(nil),     // 1: catalog_pbuf.GetProductsRequest
+	(*GetProductsResponse)(nil),    // 2: catalog_pbuf.GetProductsResponse
 	(*wrapperspb.StringValue)(nil), // 3: google.protobuf.StringValue
-	(*Catalog)(nil),                // 4: entpb.Catalog
+	(*Catalog)(nil),                // 4: catalog_pbuf.Catalog
 }
-var file_entpb_catalog_ext_proto_depIdxs = []int32{
-	3, // 0: entpb.GetProductsRequest.query:type_name -> google.protobuf.StringValue
-	0, // 1: entpb.GetProductsRequest.view:type_name -> entpb.GetProductsRequest.View
-	4, // 2: entpb.GetProductsResponse.products:type_name -> entpb.Catalog
-	1, // 3: entpb.CatalogExtendedService.GetProducts:input_type -> entpb.GetProductsRequest
-	2, // 4: entpb.CatalogExtendedService.GetProducts:output_type -> entpb.GetProductsResponse
+var file_catalog_pbuf_catalog_ext_proto_depIdxs = []int32{
+	3, // 0: catalog_pbuf.GetProductsRequest.query:type_name -> google.protobuf.StringValue
+	0, // 1: catalog_pbuf.GetProductsRequest.view:type_name -> catalog_pbuf.GetProductsRequest.View
+	4, // 2: catalog_pbuf.GetProductsResponse.products:type_name -> catalog_pbuf.Catalog
+	1, // 3: catalog_pbuf.CatalogExtendedService.GetProducts:input_type -> catalog_pbuf.GetProductsRequest
+	2, // 4: catalog_pbuf.CatalogExtendedService.GetProducts:output_type -> catalog_pbuf.GetProductsResponse
 	4, // [4:5] is the sub-list for method output_type
 	3, // [3:4] is the sub-list for method input_type
 	3, // [3:3] is the sub-list for extension type_name
@@ -265,28 +266,28 @@ var file_entpb_catalog_ext_proto_depIdxs = []int32{
 	0, // [0:3] is the sub-list for field type_name
 }
 
-func init() { file_entpb_catalog_ext_proto_init() }
-func file_entpb_catalog_ext_proto_init() {
-	if File_entpb_catalog_ext_proto != nil {
+func init() { file_catalog_pbuf_catalog_ext_proto_init() }
+func file_catalog_pbuf_catalog_ext_proto_init() {
+	if File_catalog_pbuf_catalog_ext_proto != nil {
 		return
 	}
-	file_entpb_entpb_proto_init()
+	file_catalog_pbuf_catalog_pbuf_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_entpb_catalog_ext_proto_rawDesc), len(file_entpb_catalog_ext_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_catalog_pbuf_catalog_ext_proto_rawDesc), len(file_catalog_pbuf_catalog_ext_proto_rawDesc)),
 			NumEnums:      1,
 			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_entpb_catalog_ext_proto_goTypes,
-		DependencyIndexes: file_entpb_catalog_ext_proto_depIdxs,
-		EnumInfos:         file_entpb_catalog_ext_proto_enumTypes,
-		MessageInfos:      file_entpb_catalog_ext_proto_msgTypes,
+		GoTypes:           file_catalog_pbuf_catalog_ext_proto_goTypes,
+		DependencyIndexes: file_catalog_pbuf_catalog_ext_proto_depIdxs,
+		EnumInfos:         file_catalog_pbuf_catalog_ext_proto_enumTypes,
+		MessageInfos:      file_catalog_pbuf_catalog_ext_proto_msgTypes,
 	}.Build()
-	File_entpb_catalog_ext_proto = out.File
-	file_entpb_catalog_ext_proto_goTypes = nil
-	file_entpb_catalog_ext_proto_depIdxs = nil
+	File_catalog_pbuf_catalog_ext_proto = out.File
+	file_catalog_pbuf_catalog_ext_proto_goTypes = nil
+	file_catalog_pbuf_catalog_ext_proto_depIdxs = nil
 }

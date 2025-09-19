@@ -2,7 +2,7 @@
 
 package runtime
 
-// The schema-stitching logic is generated in github.com/abisalde/gprc-microservice/auth/pkg/ent/runtime.go
+// The schema-stitching logic is generated in github.com/abisalde/grpc-microservice/auth/pkg/ent/runtime.go
 
 const (
 	Version = "v0.14.5"                                         // Version of ent codegen.

@@ -12,7 +12,7 @@ import (
 	entsql "entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/schema"
 
-	"github.com/abisalde/gprc-microservice/auth/pkg/ent"
+	"github.com/abisalde/grpc-microservice/auth/pkg/ent"
 	_ "github.com/lib/pq"
 )
 

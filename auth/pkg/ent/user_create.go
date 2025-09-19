@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/abisalde/gprc-microservice/auth/pkg/ent/user"
+	"github.com/abisalde/grpc-microservice/auth/pkg/ent/user"
 )
 
 // UserCreate is the builder for creating a User entity.

@@ -8,8 +8,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/abisalde/gprc-microservice/catalog/pkg/ent/catalog"
-	"github.com/abisalde/gprc-microservice/catalog/pkg/ent/predicate"
+	"github.com/abisalde/grpc-microservice/catalog/pkg/ent/catalog"
+	"github.com/abisalde/grpc-microservice/catalog/pkg/ent/predicate"
 )
 
 // CatalogDelete is the builder for deleting a Catalog entity.

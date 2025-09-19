@@ -3,9 +3,9 @@ package repository
 import (
 	"context"
 
-	"github.com/abisalde/gprc-microservice/auth/internal/model"
-	"github.com/abisalde/gprc-microservice/auth/pkg/ent"
-	"github.com/abisalde/gprc-microservice/auth/pkg/ent/user"
+	"github.com/abisalde/grpc-microservice/auth/internal/model"
+	"github.com/abisalde/grpc-microservice/auth/pkg/ent"
+	"github.com/abisalde/grpc-microservice/auth/pkg/ent/user"
 )
 
 type UserRepository interface {

@@ -5,8 +5,8 @@ package ent
 import (
 	"time"
 
-	"github.com/abisalde/gprc-microservice/catalog/pkg/ent/catalog"
-	"github.com/abisalde/gprc-microservice/catalog/pkg/ent/schema"
+	"github.com/abisalde/grpc-microservice/catalog/pkg/ent/catalog"
+	"github.com/abisalde/grpc-microservice/catalog/pkg/ent/schema"
 )
 
 // The init function reads all schema descriptors with runtime code

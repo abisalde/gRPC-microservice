@@ -7,10 +7,10 @@ import (
 	"net"
 	"time"
 
-	"github.com/abisalde/gprc-microservice/catalog/internal/model"
-	"github.com/abisalde/gprc-microservice/catalog/internal/service"
-	"github.com/abisalde/gprc-microservice/catalog/pkg/ent"
-	"github.com/abisalde/gprc-microservice/catalog/pkg/ent/proto/entpb"
+	"github.com/abisalde/grpc-microservice/catalog/internal/model"
+	"github.com/abisalde/grpc-microservice/catalog/internal/service"
+	"github.com/abisalde/grpc-microservice/catalog/pkg/ent"
+	"github.com/abisalde/grpc-microservice/catalog/pkg/ent/proto/catalog_pbuf"
 	"github.com/google/uuid"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
@@ -22,20 +22,20 @@ import (
 )
 
 type grpcServer struct {
-	entpb.UnimplementedCatalogServiceServer
-	entpb.UnimplementedCatalogExtendedServiceServer
+	catalog_pbuf.UnimplementedCatalogServiceServer
+	catalog_pbuf.UnimplementedCatalogExtendedServiceServer
 	service service.ProductCatalogService
 }
 
 var (
-	sleep = flag.Duration("sleep", time.Second*5, "duration between changes in health")
+	sleep = flag.Duration("catalog-sleep", time.Second*5, "catalog duration between changes in health")
 
-	system = ""
+	system = "catalog.CatalogService"
 )
 
 func ListenGRPC(s service.ProductCatalogService) error {
 
-	lis, err := net.Listen("tcp", fmt.Sprint(":%w", 50052))
+	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", 50052))
 
 	if err != nil {
 		return err
@@ -45,9 +45,9 @@ func ListenGRPC(s service.ProductCatalogService) error {
 	healthcheck := health.NewServer()
 	healthgrpc.RegisterHealthServer(serve, healthcheck)
 
-	entpb.RegisterCatalogServiceServer(serve, &grpcServer{service: s})
+	catalog_pbuf.RegisterCatalogServiceServer(serve, &grpcServer{service: s})
 
-	entpb.RegisterCatalogExtendedServiceServer(serve, &grpcServer{service: s})
+	catalog_pbuf.RegisterCatalogExtendedServiceServer(serve, &grpcServer{service: s})
 
 	reflection.Register(serve)
 
@@ -69,7 +69,7 @@ func ListenGRPC(s service.ProductCatalogService) error {
 	return serve.Serve(lis)
 }
 
-func (s *grpcServer) Create(ctx context.Context, r *entpb.CreateCatalogRequest) (*entpb.Catalog, error) {
+func (s *grpcServer) Create(ctx context.Context, r *catalog_pbuf.CreateCatalogRequest) (*catalog_pbuf.Catalog, error) {
 	catalog := &model.CreateCatalog{
 		Name:        r.GetCatalog().GetName(),
 		Description: r.GetCatalog().Description.GetValue(),
@@ -85,7 +85,7 @@ func (s *grpcServer) Create(ctx context.Context, r *entpb.CreateCatalogRequest) 
 
 }
 
-func (s *grpcServer) Update(ctx context.Context, r *entpb.UpdateCatalogRequest) (*entpb.Catalog, error) {
+func (s *grpcServer) Update(ctx context.Context, r *catalog_pbuf.UpdateCatalogRequest) (*catalog_pbuf.Catalog, error) {
 
 	idUUID, err := uuid.Parse(string(r.GetCatalog().GetId()))
 	if err != nil {
@@ -107,7 +107,7 @@ func (s *grpcServer) Update(ctx context.Context, r *entpb.UpdateCatalogRequest) 
 	return entCatalogToProto(c), nil
 }
 
-func (s *grpcServer) Get(ctx context.Context, r *entpb.GetCatalogRequest) (*entpb.Catalog, error) {
+func (s *grpcServer) Get(ctx context.Context, r *catalog_pbuf.GetCatalogRequest) (*catalog_pbuf.Catalog, error) {
 	idUUID, err := uuid.Parse(string(r.GetId()))
 	if err != nil {
 		return nil, err
@@ -121,7 +121,7 @@ func (s *grpcServer) Get(ctx context.Context, r *entpb.GetCatalogRequest) (*entp
 	return entCatalogToProto(p), nil
 }
 
-func (s *grpcServer) BatchCreate(ctx context.Context, r *entpb.BatchCreateCatalogsRequest) (*entpb.BatchCreateCatalogsResponse, error) {
+func (s *grpcServer) BatchCreate(ctx context.Context, r *catalog_pbuf.BatchCreateCatalogsRequest) (*catalog_pbuf.BatchCreateCatalogsResponse, error) {
 	var createRequests []model.CreateCatalog
 	for _, req := range r.GetRequests() {
 		createCatalog := model.CreateCatalog{
@@ -141,22 +141,22 @@ func (s *grpcServer) BatchCreate(ctx context.Context, r *entpb.BatchCreateCatalo
 		createdProducts = append(createdProducts, product)
 	}
 
-	createdCatalogs := make([]*entpb.Catalog, len(createdProducts))
+	createdCatalogs := make([]*catalog_pbuf.Catalog, len(createdProducts))
 	for i, product := range createdProducts {
 		createdCatalogs[i] = entCatalogToProto(product)
 	}
 
-	return &entpb.BatchCreateCatalogsResponse{
+	return &catalog_pbuf.BatchCreateCatalogsResponse{
 		Catalogs: createdCatalogs,
 	}, nil
 }
 
-func entCatalogToProto(catalog *ent.Catalog) *entpb.Catalog {
+func entCatalogToProto(catalog *ent.Catalog) *catalog_pbuf.Catalog {
 	if catalog == nil {
 		return nil
 	}
 
-	protoCatalog := &entpb.Catalog{
+	protoCatalog := &catalog_pbuf.Catalog{
 		Id:        catalog.ID[:],
 		Name:      catalog.Name,
 		Price:     catalog.Price,

@@ -8,7 +8,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/abisalde/gprc-microservice/gateway/internal/graph/model"
+	"github.com/abisalde/grpc-microservice/gateway/internal/graph/model"
 )
 
 // Profile is the resolver for the profile field.

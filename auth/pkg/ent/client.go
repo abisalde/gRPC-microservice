@@ -9,12 +9,12 @@ import (
 	"log"
 	"reflect"
 
-	"github.com/abisalde/gprc-microservice/auth/pkg/ent/migrate"
+	"github.com/abisalde/grpc-microservice/auth/pkg/ent/migrate"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
-	"github.com/abisalde/gprc-microservice/auth/pkg/ent/user"
+	"github.com/abisalde/grpc-microservice/auth/pkg/ent/user"
 )
 
 // Client is the client that holds all ent builders.

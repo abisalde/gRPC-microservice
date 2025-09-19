@@ -37,7 +37,9 @@ func (Catalog) Fields() []ent.Field {
 
 func (Catalog) Annotations() []schema.Annotation {
 	return []schema.Annotation{
-		entproto.Message(),
+		entproto.Message(
+			entproto.PackageName("catalog_pbuf"),
+		),
 		entproto.Service(),
 	}
 }

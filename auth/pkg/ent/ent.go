@@ -12,7 +12,7 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
-	"github.com/abisalde/gprc-microservice/auth/pkg/ent/user"
+	"github.com/abisalde/grpc-microservice/auth/pkg/ent/user"
 )
 
 // ent aliases to avoid import conflicts in user's code.

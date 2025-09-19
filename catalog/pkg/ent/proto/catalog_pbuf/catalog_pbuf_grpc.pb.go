@@ -4,9 +4,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v6.32.0
-// source: entpb/entpb.proto
+// source: catalog_pbuf/catalog_pbuf.proto
 
-package entpb
+package catalog_pbuf
 
 import (
 	context "context"
@@ -22,12 +22,12 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	CatalogService_Create_FullMethodName      = "/entpb.CatalogService/Create"
-	CatalogService_Get_FullMethodName         = "/entpb.CatalogService/Get"
-	CatalogService_Update_FullMethodName      = "/entpb.CatalogService/Update"
-	CatalogService_Delete_FullMethodName      = "/entpb.CatalogService/Delete"
-	CatalogService_List_FullMethodName        = "/entpb.CatalogService/List"
-	CatalogService_BatchCreate_FullMethodName = "/entpb.CatalogService/BatchCreate"
+	CatalogService_Create_FullMethodName      = "/catalog_pbuf.CatalogService/Create"
+	CatalogService_Get_FullMethodName         = "/catalog_pbuf.CatalogService/Get"
+	CatalogService_Update_FullMethodName      = "/catalog_pbuf.CatalogService/Update"
+	CatalogService_Delete_FullMethodName      = "/catalog_pbuf.CatalogService/Delete"
+	CatalogService_List_FullMethodName        = "/catalog_pbuf.CatalogService/List"
+	CatalogService_BatchCreate_FullMethodName = "/catalog_pbuf.CatalogService/BatchCreate"
 )
 
 // CatalogServiceClient is the client API for CatalogService service.
@@ -281,7 +281,7 @@ func _CatalogService_BatchCreate_Handler(srv interface{}, ctx context.Context, d
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var CatalogService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "entpb.CatalogService",
+	ServiceName: "catalog_pbuf.CatalogService",
 	HandlerType: (*CatalogServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -310,5 +310,5 @@ var CatalogService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "entpb/entpb.proto",
+	Metadata: "catalog_pbuf/catalog_pbuf.proto",
 }

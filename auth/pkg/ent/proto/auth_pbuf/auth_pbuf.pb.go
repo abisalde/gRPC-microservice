@@ -4,19 +4,20 @@
 // versions:
 // 	protoc-gen-go v1.36.9
 // 	protoc        v6.32.0
-// source: entpb/entpb.proto
+// source: auth_pbuf/auth_pbuf.proto
 
-package entpb
+package auth_pbuf
 
 import (
+	reflect "reflect"
+	sync "sync"
+	unsafe "unsafe"
+
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
-	reflect "reflect"
-	sync "sync"
-	unsafe "unsafe"
 )
 
 const (
@@ -56,11 +57,11 @@ func (x User_Role) String() string {
 }
 
 func (User_Role) Descriptor() protoreflect.EnumDescriptor {
-	return file_entpb_entpb_proto_enumTypes[0].Descriptor()
+	return file_auth_pbuf_auth_pbuf_proto_enumTypes[0].Descriptor()
 }
 
 func (User_Role) Type() protoreflect.EnumType {
-	return &file_entpb_entpb_proto_enumTypes[0]
+	return &file_auth_pbuf_auth_pbuf_proto_enumTypes[0]
 }
 
 func (x User_Role) Number() protoreflect.EnumNumber {
@@ -69,7 +70,7 @@ func (x User_Role) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use User_Role.Descriptor instead.
 func (User_Role) EnumDescriptor() ([]byte, []int) {
-	return file_entpb_entpb_proto_rawDescGZIP(), []int{0, 0}
+	return file_auth_pbuf_auth_pbuf_proto_rawDescGZIP(), []int{0, 0}
 }
 
 type GetUserRequest_View int32
@@ -105,11 +106,11 @@ func (x GetUserRequest_View) String() string {
 }
 
 func (GetUserRequest_View) Descriptor() protoreflect.EnumDescriptor {
-	return file_entpb_entpb_proto_enumTypes[1].Descriptor()
+	return file_auth_pbuf_auth_pbuf_proto_enumTypes[1].Descriptor()
 }
 
 func (GetUserRequest_View) Type() protoreflect.EnumType {
-	return &file_entpb_entpb_proto_enumTypes[1]
+	return &file_auth_pbuf_auth_pbuf_proto_enumTypes[1]
 }
 
 func (x GetUserRequest_View) Number() protoreflect.EnumNumber {
@@ -118,7 +119,7 @@ func (x GetUserRequest_View) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use GetUserRequest_View.Descriptor instead.
 func (GetUserRequest_View) EnumDescriptor() ([]byte, []int) {
-	return file_entpb_entpb_proto_rawDescGZIP(), []int{2, 0}
+	return file_auth_pbuf_auth_pbuf_proto_rawDescGZIP(), []int{2, 0}
 }
 
 type ListUserRequest_View int32
@@ -154,11 +155,11 @@ func (x ListUserRequest_View) String() string {
 }
 
 func (ListUserRequest_View) Descriptor() protoreflect.EnumDescriptor {
-	return file_entpb_entpb_proto_enumTypes[2].Descriptor()
+	return file_auth_pbuf_auth_pbuf_proto_enumTypes[2].Descriptor()
 }
 
 func (ListUserRequest_View) Type() protoreflect.EnumType {
-	return &file_entpb_entpb_proto_enumTypes[2]
+	return &file_auth_pbuf_auth_pbuf_proto_enumTypes[2]
 }
 
 func (x ListUserRequest_View) Number() protoreflect.EnumNumber {
@@ -167,7 +168,7 @@ func (x ListUserRequest_View) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use ListUserRequest_View.Descriptor instead.
 func (ListUserRequest_View) EnumDescriptor() ([]byte, []int) {
-	return file_entpb_entpb_proto_rawDescGZIP(), []int{5, 0}
+	return file_auth_pbuf_auth_pbuf_proto_rawDescGZIP(), []int{5, 0}
 }
 
 type User struct {
@@ -180,7 +181,7 @@ type User struct {
 	PasswordHash    *wrapperspb.StringValue `protobuf:"bytes,3,opt,name=password_hash,json=passwordHash,proto3" json:"password_hash,omitempty"`
 	FirstName       string                  `protobuf:"bytes,4,opt,name=first_name,json=firstName,proto3" json:"first_name,omitempty"`
 	LastName        string                  `protobuf:"bytes,5,opt,name=last_name,json=lastName,proto3" json:"last_name,omitempty"`
-	Role            User_Role               `protobuf:"varint,6,opt,name=role,proto3,enum=entpb.User_Role" json:"role,omitempty"`
+	Role            User_Role               `protobuf:"varint,6,opt,name=role,proto3,enum=auth_pbuf.User_Role" json:"role,omitempty"`
 	IsEmailVerified bool                    `protobuf:"varint,7,opt,name=is_email_verified,json=isEmailVerified,proto3" json:"is_email_verified,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
@@ -188,7 +189,7 @@ type User struct {
 
 func (x *User) Reset() {
 	*x = User{}
-	mi := &file_entpb_entpb_proto_msgTypes[0]
+	mi := &file_auth_pbuf_auth_pbuf_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -200,7 +201,7 @@ func (x *User) String() string {
 func (*User) ProtoMessage() {}
 
 func (x *User) ProtoReflect() protoreflect.Message {
-	mi := &file_entpb_entpb_proto_msgTypes[0]
+	mi := &file_auth_pbuf_auth_pbuf_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -213,7 +214,7 @@ func (x *User) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use User.ProtoReflect.Descriptor instead.
 func (*User) Descriptor() ([]byte, []int) {
-	return file_entpb_entpb_proto_rawDescGZIP(), []int{0}
+	return file_auth_pbuf_auth_pbuf_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *User) GetId() int64 {
@@ -295,7 +296,7 @@ type CreateUserRequest struct {
 
 func (x *CreateUserRequest) Reset() {
 	*x = CreateUserRequest{}
-	mi := &file_entpb_entpb_proto_msgTypes[1]
+	mi := &file_auth_pbuf_auth_pbuf_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -307,7 +308,7 @@ func (x *CreateUserRequest) String() string {
 func (*CreateUserRequest) ProtoMessage() {}
 
 func (x *CreateUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_entpb_entpb_proto_msgTypes[1]
+	mi := &file_auth_pbuf_auth_pbuf_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -320,7 +321,7 @@ func (x *CreateUserRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateUserRequest.ProtoReflect.Descriptor instead.
 func (*CreateUserRequest) Descriptor() ([]byte, []int) {
-	return file_entpb_entpb_proto_rawDescGZIP(), []int{1}
+	return file_auth_pbuf_auth_pbuf_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *CreateUserRequest) GetUser() *User {
@@ -333,14 +334,14 @@ func (x *CreateUserRequest) GetUser() *User {
 type GetUserRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	View          GetUserRequest_View    `protobuf:"varint,2,opt,name=view,proto3,enum=entpb.GetUserRequest_View" json:"view,omitempty"`
+	View          GetUserRequest_View    `protobuf:"varint,2,opt,name=view,proto3,enum=auth_pbuf.GetUserRequest_View" json:"view,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *GetUserRequest) Reset() {
 	*x = GetUserRequest{}
-	mi := &file_entpb_entpb_proto_msgTypes[2]
+	mi := &file_auth_pbuf_auth_pbuf_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -352,7 +353,7 @@ func (x *GetUserRequest) String() string {
 func (*GetUserRequest) ProtoMessage() {}
 
 func (x *GetUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_entpb_entpb_proto_msgTypes[2]
+	mi := &file_auth_pbuf_auth_pbuf_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -365,7 +366,7 @@ func (x *GetUserRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserRequest.ProtoReflect.Descriptor instead.
 func (*GetUserRequest) Descriptor() ([]byte, []int) {
-	return file_entpb_entpb_proto_rawDescGZIP(), []int{2}
+	return file_auth_pbuf_auth_pbuf_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *GetUserRequest) GetId() int64 {
@@ -391,7 +392,7 @@ type UpdateUserRequest struct {
 
 func (x *UpdateUserRequest) Reset() {
 	*x = UpdateUserRequest{}
-	mi := &file_entpb_entpb_proto_msgTypes[3]
+	mi := &file_auth_pbuf_auth_pbuf_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -403,7 +404,7 @@ func (x *UpdateUserRequest) String() string {
 func (*UpdateUserRequest) ProtoMessage() {}
 
 func (x *UpdateUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_entpb_entpb_proto_msgTypes[3]
+	mi := &file_auth_pbuf_auth_pbuf_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -416,7 +417,7 @@ func (x *UpdateUserRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateUserRequest.ProtoReflect.Descriptor instead.
 func (*UpdateUserRequest) Descriptor() ([]byte, []int) {
-	return file_entpb_entpb_proto_rawDescGZIP(), []int{3}
+	return file_auth_pbuf_auth_pbuf_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *UpdateUserRequest) GetUser() *User {
@@ -435,7 +436,7 @@ type DeleteUserRequest struct {
 
 func (x *DeleteUserRequest) Reset() {
 	*x = DeleteUserRequest{}
-	mi := &file_entpb_entpb_proto_msgTypes[4]
+	mi := &file_auth_pbuf_auth_pbuf_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -447,7 +448,7 @@ func (x *DeleteUserRequest) String() string {
 func (*DeleteUserRequest) ProtoMessage() {}
 
 func (x *DeleteUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_entpb_entpb_proto_msgTypes[4]
+	mi := &file_auth_pbuf_auth_pbuf_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -460,7 +461,7 @@ func (x *DeleteUserRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteUserRequest.ProtoReflect.Descriptor instead.
 func (*DeleteUserRequest) Descriptor() ([]byte, []int) {
-	return file_entpb_entpb_proto_rawDescGZIP(), []int{4}
+	return file_auth_pbuf_auth_pbuf_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *DeleteUserRequest) GetId() int64 {
@@ -474,14 +475,14 @@ type ListUserRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	PageSize      int32                  `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	PageToken     string                 `protobuf:"bytes,2,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
-	View          ListUserRequest_View   `protobuf:"varint,3,opt,name=view,proto3,enum=entpb.ListUserRequest_View" json:"view,omitempty"`
+	View          ListUserRequest_View   `protobuf:"varint,3,opt,name=view,proto3,enum=auth_pbuf.ListUserRequest_View" json:"view,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ListUserRequest) Reset() {
 	*x = ListUserRequest{}
-	mi := &file_entpb_entpb_proto_msgTypes[5]
+	mi := &file_auth_pbuf_auth_pbuf_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -493,7 +494,7 @@ func (x *ListUserRequest) String() string {
 func (*ListUserRequest) ProtoMessage() {}
 
 func (x *ListUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_entpb_entpb_proto_msgTypes[5]
+	mi := &file_auth_pbuf_auth_pbuf_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -506,7 +507,7 @@ func (x *ListUserRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListUserRequest.ProtoReflect.Descriptor instead.
 func (*ListUserRequest) Descriptor() ([]byte, []int) {
-	return file_entpb_entpb_proto_rawDescGZIP(), []int{5}
+	return file_auth_pbuf_auth_pbuf_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *ListUserRequest) GetPageSize() int32 {
@@ -540,7 +541,7 @@ type ListUserResponse struct {
 
 func (x *ListUserResponse) Reset() {
 	*x = ListUserResponse{}
-	mi := &file_entpb_entpb_proto_msgTypes[6]
+	mi := &file_auth_pbuf_auth_pbuf_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -552,7 +553,7 @@ func (x *ListUserResponse) String() string {
 func (*ListUserResponse) ProtoMessage() {}
 
 func (x *ListUserResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_entpb_entpb_proto_msgTypes[6]
+	mi := &file_auth_pbuf_auth_pbuf_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -565,7 +566,7 @@ func (x *ListUserResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListUserResponse.ProtoReflect.Descriptor instead.
 func (*ListUserResponse) Descriptor() ([]byte, []int) {
-	return file_entpb_entpb_proto_rawDescGZIP(), []int{6}
+	return file_auth_pbuf_auth_pbuf_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *ListUserResponse) GetUserList() []*User {
@@ -591,7 +592,7 @@ type BatchCreateUsersRequest struct {
 
 func (x *BatchCreateUsersRequest) Reset() {
 	*x = BatchCreateUsersRequest{}
-	mi := &file_entpb_entpb_proto_msgTypes[7]
+	mi := &file_auth_pbuf_auth_pbuf_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -603,7 +604,7 @@ func (x *BatchCreateUsersRequest) String() string {
 func (*BatchCreateUsersRequest) ProtoMessage() {}
 
 func (x *BatchCreateUsersRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_entpb_entpb_proto_msgTypes[7]
+	mi := &file_auth_pbuf_auth_pbuf_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -616,7 +617,7 @@ func (x *BatchCreateUsersRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BatchCreateUsersRequest.ProtoReflect.Descriptor instead.
 func (*BatchCreateUsersRequest) Descriptor() ([]byte, []int) {
-	return file_entpb_entpb_proto_rawDescGZIP(), []int{7}
+	return file_auth_pbuf_auth_pbuf_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *BatchCreateUsersRequest) GetRequests() []*CreateUserRequest {
@@ -635,7 +636,7 @@ type BatchCreateUsersResponse struct {
 
 func (x *BatchCreateUsersResponse) Reset() {
 	*x = BatchCreateUsersResponse{}
-	mi := &file_entpb_entpb_proto_msgTypes[8]
+	mi := &file_auth_pbuf_auth_pbuf_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -647,7 +648,7 @@ func (x *BatchCreateUsersResponse) String() string {
 func (*BatchCreateUsersResponse) ProtoMessage() {}
 
 func (x *BatchCreateUsersResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_entpb_entpb_proto_msgTypes[8]
+	mi := &file_auth_pbuf_auth_pbuf_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -660,7 +661,7 @@ func (x *BatchCreateUsersResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BatchCreateUsersResponse.ProtoReflect.Descriptor instead.
 func (*BatchCreateUsersResponse) Descriptor() ([]byte, []int) {
-	return file_entpb_entpb_proto_rawDescGZIP(), []int{8}
+	return file_auth_pbuf_auth_pbuf_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *BatchCreateUsersResponse) GetUsers() []*User {
@@ -670,11 +671,11 @@ func (x *BatchCreateUsersResponse) GetUsers() []*User {
 	return nil
 }
 
-var File_entpb_entpb_proto protoreflect.FileDescriptor
+var File_auth_pbuf_auth_pbuf_proto protoreflect.FileDescriptor
 
-const file_entpb_entpb_proto_rawDesc = "" +
+const file_auth_pbuf_auth_pbuf_proto_rawDesc = "" +
 	"\n" +
-	"\x11entpb/entpb.proto\x12\x05entpb\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1egoogle/protobuf/wrappers.proto\"\xd5\x03\n" +
+	"\x19auth_pbuf/auth_pbuf.proto\x12\tauth_pbuf\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1egoogle/protobuf/wrappers.proto\"\xd9\x03\n" +
 	"\x04User\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x129\n" +
 	"\n" +
@@ -688,106 +689,106 @@ const file_entpb_entpb_proto_rawDesc = "" +
 	"\rpassword_hash\x18\x03 \x01(\v2\x1c.google.protobuf.StringValueR\fpasswordHash\x12\x1d\n" +
 	"\n" +
 	"first_name\x18\x04 \x01(\tR\tfirstName\x12\x1b\n" +
-	"\tlast_name\x18\x05 \x01(\tR\blastName\x12$\n" +
-	"\x04role\x18\x06 \x01(\x0e2\x10.entpb.User.RoleR\x04role\x12*\n" +
+	"\tlast_name\x18\x05 \x01(\tR\blastName\x12(\n" +
+	"\x04role\x18\x06 \x01(\x0e2\x14.auth_pbuf.User.RoleR\x04role\x12*\n" +
 	"\x11is_email_verified\x18\a \x01(\bR\x0fisEmailVerified\"%\n" +
 	"\x04Role\x12\r\n" +
 	"\tROLE_USER\x10\x00\x12\x0e\n" +
 	"\n" +
-	"ROLE_ADMIN\x10\x01\"4\n" +
-	"\x11CreateUserRequest\x12\x1f\n" +
-	"\x04user\x18\x01 \x01(\v2\v.entpb.UserR\x04user\"\x8c\x01\n" +
+	"ROLE_ADMIN\x10\x01\"8\n" +
+	"\x11CreateUserRequest\x12#\n" +
+	"\x04user\x18\x01 \x01(\v2\x0f.auth_pbuf.UserR\x04user\"\x90\x01\n" +
 	"\x0eGetUserRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x12.\n" +
-	"\x04view\x18\x02 \x01(\x0e2\x1a.entpb.GetUserRequest.ViewR\x04view\":\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x122\n" +
+	"\x04view\x18\x02 \x01(\x0e2\x1e.auth_pbuf.GetUserRequest.ViewR\x04view\":\n" +
 	"\x04View\x12\x14\n" +
 	"\x10VIEW_UNSPECIFIED\x10\x00\x12\t\n" +
 	"\x05BASIC\x10\x01\x12\x11\n" +
-	"\rWITH_EDGE_IDS\x10\x02\"4\n" +
-	"\x11UpdateUserRequest\x12\x1f\n" +
-	"\x04user\x18\x01 \x01(\v2\v.entpb.UserR\x04user\"#\n" +
+	"\rWITH_EDGE_IDS\x10\x02\"8\n" +
+	"\x11UpdateUserRequest\x12#\n" +
+	"\x04user\x18\x01 \x01(\v2\x0f.auth_pbuf.UserR\x04user\"#\n" +
 	"\x11DeleteUserRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\"\xba\x01\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\"\xbe\x01\n" +
 	"\x0fListUserRequest\x12\x1b\n" +
 	"\tpage_size\x18\x01 \x01(\x05R\bpageSize\x12\x1d\n" +
 	"\n" +
-	"page_token\x18\x02 \x01(\tR\tpageToken\x12/\n" +
-	"\x04view\x18\x03 \x01(\x0e2\x1b.entpb.ListUserRequest.ViewR\x04view\":\n" +
+	"page_token\x18\x02 \x01(\tR\tpageToken\x123\n" +
+	"\x04view\x18\x03 \x01(\x0e2\x1f.auth_pbuf.ListUserRequest.ViewR\x04view\":\n" +
 	"\x04View\x12\x14\n" +
 	"\x10VIEW_UNSPECIFIED\x10\x00\x12\t\n" +
 	"\x05BASIC\x10\x01\x12\x11\n" +
-	"\rWITH_EDGE_IDS\x10\x02\"d\n" +
-	"\x10ListUserResponse\x12(\n" +
-	"\tuser_list\x18\x01 \x03(\v2\v.entpb.UserR\buserList\x12&\n" +
-	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\"O\n" +
-	"\x17BatchCreateUsersRequest\x124\n" +
-	"\brequests\x18\x01 \x03(\v2\x18.entpb.CreateUserRequestR\brequests\"=\n" +
-	"\x18BatchCreateUsersResponse\x12!\n" +
-	"\x05users\x18\x01 \x03(\v2\v.entpb.UserR\x05users2\xdf\x02\n" +
-	"\vUserService\x12/\n" +
-	"\x06Create\x12\x18.entpb.CreateUserRequest\x1a\v.entpb.User\x12)\n" +
-	"\x03Get\x12\x15.entpb.GetUserRequest\x1a\v.entpb.User\x12/\n" +
-	"\x06Update\x12\x18.entpb.UpdateUserRequest\x1a\v.entpb.User\x12:\n" +
-	"\x06Delete\x12\x18.entpb.DeleteUserRequest\x1a\x16.google.protobuf.Empty\x127\n" +
-	"\x04List\x12\x16.entpb.ListUserRequest\x1a\x17.entpb.ListUserResponse\x12N\n" +
-	"\vBatchCreate\x12\x1e.entpb.BatchCreateUsersRequest\x1a\x1f.entpb.BatchCreateUsersResponseB@Z>github.com/abisalde/gprc-microservice/auth/pkg/ent/proto/entpbb\x06proto3"
+	"\rWITH_EDGE_IDS\x10\x02\"h\n" +
+	"\x10ListUserResponse\x12,\n" +
+	"\tuser_list\x18\x01 \x03(\v2\x0f.auth_pbuf.UserR\buserList\x12&\n" +
+	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\"S\n" +
+	"\x17BatchCreateUsersRequest\x128\n" +
+	"\brequests\x18\x01 \x03(\v2\x1c.auth_pbuf.CreateUserRequestR\brequests\"A\n" +
+	"\x18BatchCreateUsersResponse\x12%\n" +
+	"\x05users\x18\x01 \x03(\v2\x0f.auth_pbuf.UserR\x05users2\x8b\x03\n" +
+	"\vUserService\x127\n" +
+	"\x06Create\x12\x1c.auth_pbuf.CreateUserRequest\x1a\x0f.auth_pbuf.User\x121\n" +
+	"\x03Get\x12\x19.auth_pbuf.GetUserRequest\x1a\x0f.auth_pbuf.User\x127\n" +
+	"\x06Update\x12\x1c.auth_pbuf.UpdateUserRequest\x1a\x0f.auth_pbuf.User\x12>\n" +
+	"\x06Delete\x12\x1c.auth_pbuf.DeleteUserRequest\x1a\x16.google.protobuf.Empty\x12?\n" +
+	"\x04List\x12\x1a.auth_pbuf.ListUserRequest\x1a\x1b.auth_pbuf.ListUserResponse\x12V\n" +
+	"\vBatchCreate\x12\".auth_pbuf.BatchCreateUsersRequest\x1a#.auth_pbuf.BatchCreateUsersResponseBDZBgithub.com/abisalde/grpc-microservice/auth/pkg/ent/proto/auth_pbufb\x06proto3"
 
 var (
-	file_entpb_entpb_proto_rawDescOnce sync.Once
-	file_entpb_entpb_proto_rawDescData []byte
+	file_auth_pbuf_auth_pbuf_proto_rawDescOnce sync.Once
+	file_auth_pbuf_auth_pbuf_proto_rawDescData []byte
 )
 
-func file_entpb_entpb_proto_rawDescGZIP() []byte {
-	file_entpb_entpb_proto_rawDescOnce.Do(func() {
-		file_entpb_entpb_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_entpb_entpb_proto_rawDesc), len(file_entpb_entpb_proto_rawDesc)))
+func file_auth_pbuf_auth_pbuf_proto_rawDescGZIP() []byte {
+	file_auth_pbuf_auth_pbuf_proto_rawDescOnce.Do(func() {
+		file_auth_pbuf_auth_pbuf_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_auth_pbuf_auth_pbuf_proto_rawDesc), len(file_auth_pbuf_auth_pbuf_proto_rawDesc)))
 	})
-	return file_entpb_entpb_proto_rawDescData
+	return file_auth_pbuf_auth_pbuf_proto_rawDescData
 }
 
-var file_entpb_entpb_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
-var file_entpb_entpb_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
-var file_entpb_entpb_proto_goTypes = []any{
-	(User_Role)(0),                   // 0: entpb.User.Role
-	(GetUserRequest_View)(0),         // 1: entpb.GetUserRequest.View
-	(ListUserRequest_View)(0),        // 2: entpb.ListUserRequest.View
-	(*User)(nil),                     // 3: entpb.User
-	(*CreateUserRequest)(nil),        // 4: entpb.CreateUserRequest
-	(*GetUserRequest)(nil),           // 5: entpb.GetUserRequest
-	(*UpdateUserRequest)(nil),        // 6: entpb.UpdateUserRequest
-	(*DeleteUserRequest)(nil),        // 7: entpb.DeleteUserRequest
-	(*ListUserRequest)(nil),          // 8: entpb.ListUserRequest
-	(*ListUserResponse)(nil),         // 9: entpb.ListUserResponse
-	(*BatchCreateUsersRequest)(nil),  // 10: entpb.BatchCreateUsersRequest
-	(*BatchCreateUsersResponse)(nil), // 11: entpb.BatchCreateUsersResponse
+var file_auth_pbuf_auth_pbuf_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
+var file_auth_pbuf_auth_pbuf_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
+var file_auth_pbuf_auth_pbuf_proto_goTypes = []any{
+	(User_Role)(0),                   // 0: auth_pbuf.User.Role
+	(GetUserRequest_View)(0),         // 1: auth_pbuf.GetUserRequest.View
+	(ListUserRequest_View)(0),        // 2: auth_pbuf.ListUserRequest.View
+	(*User)(nil),                     // 3: auth_pbuf.User
+	(*CreateUserRequest)(nil),        // 4: auth_pbuf.CreateUserRequest
+	(*GetUserRequest)(nil),           // 5: auth_pbuf.GetUserRequest
+	(*UpdateUserRequest)(nil),        // 6: auth_pbuf.UpdateUserRequest
+	(*DeleteUserRequest)(nil),        // 7: auth_pbuf.DeleteUserRequest
+	(*ListUserRequest)(nil),          // 8: auth_pbuf.ListUserRequest
+	(*ListUserResponse)(nil),         // 9: auth_pbuf.ListUserResponse
+	(*BatchCreateUsersRequest)(nil),  // 10: auth_pbuf.BatchCreateUsersRequest
+	(*BatchCreateUsersResponse)(nil), // 11: auth_pbuf.BatchCreateUsersResponse
 	(*timestamppb.Timestamp)(nil),    // 12: google.protobuf.Timestamp
 	(*wrapperspb.StringValue)(nil),   // 13: google.protobuf.StringValue
 	(*emptypb.Empty)(nil),            // 14: google.protobuf.Empty
 }
-var file_entpb_entpb_proto_depIdxs = []int32{
-	12, // 0: entpb.User.created_at:type_name -> google.protobuf.Timestamp
-	12, // 1: entpb.User.updated_at:type_name -> google.protobuf.Timestamp
-	12, // 2: entpb.User.deleted_at:type_name -> google.protobuf.Timestamp
-	13, // 3: entpb.User.password_hash:type_name -> google.protobuf.StringValue
-	0,  // 4: entpb.User.role:type_name -> entpb.User.Role
-	3,  // 5: entpb.CreateUserRequest.user:type_name -> entpb.User
-	1,  // 6: entpb.GetUserRequest.view:type_name -> entpb.GetUserRequest.View
-	3,  // 7: entpb.UpdateUserRequest.user:type_name -> entpb.User
-	2,  // 8: entpb.ListUserRequest.view:type_name -> entpb.ListUserRequest.View
-	3,  // 9: entpb.ListUserResponse.user_list:type_name -> entpb.User
-	4,  // 10: entpb.BatchCreateUsersRequest.requests:type_name -> entpb.CreateUserRequest
-	3,  // 11: entpb.BatchCreateUsersResponse.users:type_name -> entpb.User
-	4,  // 12: entpb.UserService.Create:input_type -> entpb.CreateUserRequest
-	5,  // 13: entpb.UserService.Get:input_type -> entpb.GetUserRequest
-	6,  // 14: entpb.UserService.Update:input_type -> entpb.UpdateUserRequest
-	7,  // 15: entpb.UserService.Delete:input_type -> entpb.DeleteUserRequest
-	8,  // 16: entpb.UserService.List:input_type -> entpb.ListUserRequest
-	10, // 17: entpb.UserService.BatchCreate:input_type -> entpb.BatchCreateUsersRequest
-	3,  // 18: entpb.UserService.Create:output_type -> entpb.User
-	3,  // 19: entpb.UserService.Get:output_type -> entpb.User
-	3,  // 20: entpb.UserService.Update:output_type -> entpb.User
-	14, // 21: entpb.UserService.Delete:output_type -> google.protobuf.Empty
-	9,  // 22: entpb.UserService.List:output_type -> entpb.ListUserResponse
-	11, // 23: entpb.UserService.BatchCreate:output_type -> entpb.BatchCreateUsersResponse
+var file_auth_pbuf_auth_pbuf_proto_depIdxs = []int32{
+	12, // 0: auth_pbuf.User.created_at:type_name -> google.protobuf.Timestamp
+	12, // 1: auth_pbuf.User.updated_at:type_name -> google.protobuf.Timestamp
+	12, // 2: auth_pbuf.User.deleted_at:type_name -> google.protobuf.Timestamp
+	13, // 3: auth_pbuf.User.password_hash:type_name -> google.protobuf.StringValue
+	0,  // 4: auth_pbuf.User.role:type_name -> auth_pbuf.User.Role
+	3,  // 5: auth_pbuf.CreateUserRequest.user:type_name -> auth_pbuf.User
+	1,  // 6: auth_pbuf.GetUserRequest.view:type_name -> auth_pbuf.GetUserRequest.View
+	3,  // 7: auth_pbuf.UpdateUserRequest.user:type_name -> auth_pbuf.User
+	2,  // 8: auth_pbuf.ListUserRequest.view:type_name -> auth_pbuf.ListUserRequest.View
+	3,  // 9: auth_pbuf.ListUserResponse.user_list:type_name -> auth_pbuf.User
+	4,  // 10: auth_pbuf.BatchCreateUsersRequest.requests:type_name -> auth_pbuf.CreateUserRequest
+	3,  // 11: auth_pbuf.BatchCreateUsersResponse.users:type_name -> auth_pbuf.User
+	4,  // 12: auth_pbuf.UserService.Create:input_type -> auth_pbuf.CreateUserRequest
+	5,  // 13: auth_pbuf.UserService.Get:input_type -> auth_pbuf.GetUserRequest
+	6,  // 14: auth_pbuf.UserService.Update:input_type -> auth_pbuf.UpdateUserRequest
+	7,  // 15: auth_pbuf.UserService.Delete:input_type -> auth_pbuf.DeleteUserRequest
+	8,  // 16: auth_pbuf.UserService.List:input_type -> auth_pbuf.ListUserRequest
+	10, // 17: auth_pbuf.UserService.BatchCreate:input_type -> auth_pbuf.BatchCreateUsersRequest
+	3,  // 18: auth_pbuf.UserService.Create:output_type -> auth_pbuf.User
+	3,  // 19: auth_pbuf.UserService.Get:output_type -> auth_pbuf.User
+	3,  // 20: auth_pbuf.UserService.Update:output_type -> auth_pbuf.User
+	14, // 21: auth_pbuf.UserService.Delete:output_type -> google.protobuf.Empty
+	9,  // 22: auth_pbuf.UserService.List:output_type -> auth_pbuf.ListUserResponse
+	11, // 23: auth_pbuf.UserService.BatchCreate:output_type -> auth_pbuf.BatchCreateUsersResponse
 	18, // [18:24] is the sub-list for method output_type
 	12, // [12:18] is the sub-list for method input_type
 	12, // [12:12] is the sub-list for extension type_name
@@ -795,27 +796,27 @@ var file_entpb_entpb_proto_depIdxs = []int32{
 	0,  // [0:12] is the sub-list for field type_name
 }
 
-func init() { file_entpb_entpb_proto_init() }
-func file_entpb_entpb_proto_init() {
-	if File_entpb_entpb_proto != nil {
+func init() { file_auth_pbuf_auth_pbuf_proto_init() }
+func file_auth_pbuf_auth_pbuf_proto_init() {
+	if File_auth_pbuf_auth_pbuf_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_entpb_entpb_proto_rawDesc), len(file_entpb_entpb_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_auth_pbuf_auth_pbuf_proto_rawDesc), len(file_auth_pbuf_auth_pbuf_proto_rawDesc)),
 			NumEnums:      3,
 			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_entpb_entpb_proto_goTypes,
-		DependencyIndexes: file_entpb_entpb_proto_depIdxs,
-		EnumInfos:         file_entpb_entpb_proto_enumTypes,
-		MessageInfos:      file_entpb_entpb_proto_msgTypes,
+		GoTypes:           file_auth_pbuf_auth_pbuf_proto_goTypes,
+		DependencyIndexes: file_auth_pbuf_auth_pbuf_proto_depIdxs,
+		EnumInfos:         file_auth_pbuf_auth_pbuf_proto_enumTypes,
+		MessageInfos:      file_auth_pbuf_auth_pbuf_proto_msgTypes,
 	}.Build()
-	File_entpb_entpb_proto = out.File
-	file_entpb_entpb_proto_goTypes = nil
-	file_entpb_entpb_proto_depIdxs = nil
+	File_auth_pbuf_auth_pbuf_proto = out.File
+	file_auth_pbuf_auth_pbuf_proto_goTypes = nil
+	file_auth_pbuf_auth_pbuf_proto_depIdxs = nil
 }

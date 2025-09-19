@@ -5,10 +5,10 @@ import (
 	"log"
 	"time"
 
-	"github.com/abisalde/gprc-microservice/auth/internal/database"
-	"github.com/abisalde/gprc-microservice/auth/internal/repository"
-	"github.com/abisalde/gprc-microservice/auth/internal/service"
-	"github.com/abisalde/gprc-microservice/auth/pkg/auth_entropy"
+	"github.com/abisalde/grpc-microservice/auth/internal/database"
+	"github.com/abisalde/grpc-microservice/auth/internal/repository"
+	"github.com/abisalde/grpc-microservice/auth/internal/service"
+	"github.com/abisalde/grpc-microservice/auth/pkg/auth_entropy"
 )
 
 func setupDatabase() (*database.Database, error) {

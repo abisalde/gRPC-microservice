@@ -4,9 +4,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v6.32.0
-// source: entpb/entpb.proto
+// source: auth_pbuf/auth_pbuf.proto
 
-package entpb
+package auth_pbuf
 
 import (
 	context "context"
@@ -22,12 +22,12 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	UserService_Create_FullMethodName      = "/entpb.UserService/Create"
-	UserService_Get_FullMethodName         = "/entpb.UserService/Get"
-	UserService_Update_FullMethodName      = "/entpb.UserService/Update"
-	UserService_Delete_FullMethodName      = "/entpb.UserService/Delete"
-	UserService_List_FullMethodName        = "/entpb.UserService/List"
-	UserService_BatchCreate_FullMethodName = "/entpb.UserService/BatchCreate"
+	UserService_Create_FullMethodName      = "/auth_pbuf.UserService/Create"
+	UserService_Get_FullMethodName         = "/auth_pbuf.UserService/Get"
+	UserService_Update_FullMethodName      = "/auth_pbuf.UserService/Update"
+	UserService_Delete_FullMethodName      = "/auth_pbuf.UserService/Delete"
+	UserService_List_FullMethodName        = "/auth_pbuf.UserService/List"
+	UserService_BatchCreate_FullMethodName = "/auth_pbuf.UserService/BatchCreate"
 )
 
 // UserServiceClient is the client API for UserService service.
@@ -281,7 +281,7 @@ func _UserService_BatchCreate_Handler(srv interface{}, ctx context.Context, dec 
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var UserService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "entpb.UserService",
+	ServiceName: "auth_pbuf.UserService",
 	HandlerType: (*UserServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -310,5 +310,5 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "entpb/entpb.proto",
+	Metadata: "auth_pbuf/auth_pbuf.proto",
 }

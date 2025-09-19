@@ -6,9 +6,9 @@ import (
 	"net"
 	"time"
 
-	"github.com/abisalde/gprc-microservice/auth/internal/database"
-	"github.com/abisalde/gprc-microservice/auth/internal/service"
-	"github.com/abisalde/gprc-microservice/auth/pkg/ent/proto/entpb"
+	"github.com/abisalde/grpc-microservice/auth/internal/database"
+	"github.com/abisalde/grpc-microservice/auth/internal/service"
+	"github.com/abisalde/grpc-microservice/auth/pkg/ent/proto/auth_pbuf"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 
@@ -17,27 +17,27 @@ import (
 )
 
 var (
-	sleep = flag.Duration("sleep", time.Second*5, "duration between changes in health")
+	sleep = flag.Duration("auth-sleep", time.Second*5, "auth duration between changes in health")
 
-	system = ""
+	system = "auth.Service"
 )
 
 func ListenGRPC(s *service.UserService, db *database.Database) error {
 
-	lis, err := net.Listen("tcp", fmt.Sprint(":%w", 50051))
+	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", 50051))
 
 	if err != nil {
 		return err
 	}
 
-	svc := entpb.NewUserService(db.Client)
+	svc := auth_pbuf.NewUserService(db.Client)
 
 	server := grpc.NewServer()
 
 	healthcheck := health.NewServer()
 	healthgrpc.RegisterHealthServer(server, healthcheck)
 
-	entpb.RegisterUserServiceServer(server, svc)
+	auth_pbuf.RegisterUserServiceServer(server, svc)
 
 	reflection.Register(server)
 

@@ -11,8 +11,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/abisalde/gprc-microservice/auth/pkg/ent/predicate"
-	"github.com/abisalde/gprc-microservice/auth/pkg/ent/user"
+	"github.com/abisalde/grpc-microservice/auth/pkg/ent/predicate"
+	"github.com/abisalde/grpc-microservice/auth/pkg/ent/user"
 )
 
 // UserQuery is the builder for querying User entities.

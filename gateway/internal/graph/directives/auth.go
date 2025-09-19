@@ -4,8 +4,8 @@ import (
 	"context"
 
 	"github.com/99designs/gqlgen/graphql"
-	"github.com/abisalde/gprc-microservice/auth/pkg/ent/user"
-	"github.com/abisalde/gprc-microservice/gateway/internal/graph/model"
+	"github.com/abisalde/grpc-microservice/auth/pkg/ent/user"
+	"github.com/abisalde/grpc-microservice/gateway/internal/graph/model"
 )
 
 type AuthDirective struct {

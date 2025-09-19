@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/abisalde/gprc-microservice/auth/internal/model"
-	"github.com/abisalde/gprc-microservice/auth/internal/repository"
-	"github.com/abisalde/gprc-microservice/auth/pkg/ent"
+	"github.com/abisalde/grpc-microservice/auth/internal/model"
+	"github.com/abisalde/grpc-microservice/auth/internal/repository"
+	"github.com/abisalde/grpc-microservice/auth/pkg/ent"
 	"golang.org/x/crypto/bcrypt"
 )
 

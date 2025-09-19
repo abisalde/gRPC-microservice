@@ -5,10 +5,10 @@ import (
 	"log"
 	"time"
 
-	"github.com/abisalde/gprc-microservice/catalog/internal/es"
-	"github.com/abisalde/gprc-microservice/catalog/internal/repository"
-	"github.com/abisalde/gprc-microservice/catalog/internal/service"
-	"github.com/abisalde/gprc-microservice/catalog/pkg/catalog_entropy"
+	"github.com/abisalde/grpc-microservice/catalog/internal/es"
+	"github.com/abisalde/grpc-microservice/catalog/internal/repository"
+	"github.com/abisalde/grpc-microservice/catalog/internal/service"
+	"github.com/abisalde/grpc-microservice/catalog/pkg/catalog_entropy"
 )
 
 type HealthResponse struct {

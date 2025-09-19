@@ -8,15 +8,42 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/abisalde/gprc-microservice/gateway/internal/graph/model"
+	"github.com/abisalde/grpc-microservice/auth/pkg/ent/proto/auth_pbuf"
+	"github.com/abisalde/grpc-microservice/gateway/internal/graph/model"
+	"google.golang.org/protobuf/types/known/wrapperspb"
 )
 
 // Register is the resolver for the register field.
+// Register is the resolver for the register field.
 func (r *mutationResolver) Register(ctx context.Context, input model.RegisterInput) (*model.RegisterResponse, error) {
-	user, err := r.authClient.GetUserByEmail(ctx, input.Email)
+	if input.Email == "" || input.Password == "" {
+		return nil, fmt.Errorf("email and password are required")
+	}
+
+	authClient := r.GetAuthClient()
+	if authClient == nil {
+		return nil, fmt.Errorf("auth client not available")
+	}
+
+	user, err := r.authClient.CreateUser(ctx, &auth_pbuf.User{
+		Email:           input.Email,
+		PasswordHash:    wrapperspb.String(input.Password),
+		IsEmailVerified: true,
+	})
 
 	if err != nil {
-		return &model.RegisterResponse{}, err
+		return nil, err // ← Return the error directly instead of empty response
+	}
+
+	// Handle case where user might be nil
+	if user == nil {
+		return nil, fmt.Errorf("auth service returned nil user")
+	}
+
+	// Safely handle potentially empty/nil fields
+	var name *string
+	if user.FirstName != "" {
+		name = &user.FirstName
 	}
 
 	return &model.RegisterResponse{
@@ -24,7 +51,7 @@ func (r *mutationResolver) Register(ctx context.Context, input model.RegisterInp
 		User: &model.PublicUser{
 			ID:    "1",
 			Email: user.Email,
-			Name:  &user.FirstName,
+			Name:  name,
 		},
 	}, nil
 }

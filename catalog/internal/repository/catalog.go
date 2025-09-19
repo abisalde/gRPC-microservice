@@ -7,8 +7,8 @@ import (
 	"log"
 	"time"
 
-	"github.com/abisalde/gprc-microservice/catalog/internal/es"
-	"github.com/abisalde/gprc-microservice/catalog/pkg/ent"
+	"github.com/abisalde/grpc-microservice/catalog/internal/es"
+	"github.com/abisalde/grpc-microservice/catalog/pkg/ent"
 	"github.com/elastic/go-elasticsearch/v9/typedapi/types"
 	"github.com/google/uuid"
 )

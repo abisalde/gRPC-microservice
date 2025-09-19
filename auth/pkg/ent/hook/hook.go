@@ -6,7 +6,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/abisalde/gprc-microservice/auth/pkg/ent"
+	"github.com/abisalde/grpc-microservice/auth/pkg/ent"
 )
 
 // The UserFunc type is an adapter to allow the use of ordinary

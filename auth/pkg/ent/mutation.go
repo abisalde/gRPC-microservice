@@ -11,8 +11,8 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/abisalde/gprc-microservice/auth/pkg/ent/predicate"
-	"github.com/abisalde/gprc-microservice/auth/pkg/ent/user"
+	"github.com/abisalde/grpc-microservice/auth/pkg/ent/predicate"
+	"github.com/abisalde/grpc-microservice/auth/pkg/ent/user"
 )
 
 const (

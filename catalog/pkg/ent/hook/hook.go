@@ -6,7 +6,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/abisalde/gprc-microservice/catalog/pkg/ent"
+	"github.com/abisalde/grpc-microservice/catalog/pkg/ent"
 )
 
 // The CatalogFunc type is an adapter to allow the use of ordinary

@@ -5,12 +5,12 @@ package enttest
 import (
 	"context"
 
-	"github.com/abisalde/gprc-microservice/catalog/pkg/ent"
+	"github.com/abisalde/grpc-microservice/catalog/pkg/ent"
 	// required by schema hooks.
-	_ "github.com/abisalde/gprc-microservice/catalog/pkg/ent/runtime"
+	_ "github.com/abisalde/grpc-microservice/catalog/pkg/ent/runtime"
 
 	"entgo.io/ent/dialect/sql/schema"
-	"github.com/abisalde/gprc-microservice/catalog/pkg/ent/migrate"
+	"github.com/abisalde/grpc-microservice/catalog/pkg/ent/migrate"
 )
 
 type (

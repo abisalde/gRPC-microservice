@@ -4,9 +4,9 @@ import (
 	"context"
 	"time"
 
-	"github.com/abisalde/gprc-microservice/catalog/internal/model"
-	"github.com/abisalde/gprc-microservice/catalog/pkg/ent"
-	"github.com/abisalde/gprc-microservice/catalog/pkg/ent/proto/entpb"
+	"github.com/abisalde/grpc-microservice/catalog/internal/model"
+	"github.com/abisalde/grpc-microservice/catalog/pkg/ent"
+	"github.com/abisalde/grpc-microservice/catalog/pkg/ent/proto/catalog_pbuf"
 	"github.com/google/uuid"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -15,7 +15,7 @@ import (
 
 type Client struct {
 	conn    *grpc.ClientConn
-	service entpb.CatalogServiceClient
+	service catalog_pbuf.CatalogServiceClient
 }
 
 func NewClient(addr string) (*Client, error) {
@@ -26,7 +26,7 @@ func NewClient(addr string) (*Client, error) {
 	}
 
 	return &Client{
-		service: entpb.NewCatalogServiceClient(conn),
+		service: catalog_pbuf.NewCatalogServiceClient(conn),
 		conn:    conn,
 	}, nil
 }
@@ -36,8 +36,8 @@ func (c *Client) Close() {
 }
 
 func (c *Client) CreateProduct(ctx context.Context, p *model.CreateCatalog) (*ent.Catalog, error) {
-	r, err := c.service.Create(ctx, &entpb.CreateCatalogRequest{
-		Catalog: &entpb.Catalog{
+	r, err := c.service.Create(ctx, &catalog_pbuf.CreateCatalogRequest{
+		Catalog: &catalog_pbuf.Catalog{
 			Name:        p.Name,
 			Description: wrapperspb.String(p.Description),
 			Price:       p.Price,
@@ -58,8 +58,8 @@ func (c *Client) UpdateProduct(ctx context.Context, id string, p *model.CreateCa
 		return nil, err
 	}
 
-	r, err := c.service.Update(ctx, &entpb.UpdateCatalogRequest{
-		Catalog: &entpb.Catalog{
+	r, err := c.service.Update(ctx, &catalog_pbuf.UpdateCatalogRequest{
+		Catalog: &catalog_pbuf.Catalog{
 			Id:          uid[:],
 			Name:        p.Name,
 			Description: wrapperspb.String(p.Description),
@@ -76,7 +76,7 @@ func (c *Client) UpdateProduct(ctx context.Context, id string, p *model.CreateCa
 
 func (c *Client) GetProduct(ctx context.Context, id string) (*ent.Catalog, error) {
 
-	r, err := c.service.Get(ctx, &entpb.GetCatalogRequest{
+	r, err := c.service.Get(ctx, &catalog_pbuf.GetCatalogRequest{
 		Id: []byte(id),
 	})
 
@@ -87,7 +87,7 @@ func (c *Client) GetProduct(ctx context.Context, id string) (*ent.Catalog, error
 	return c.protoToEntCatalog(r), nil
 }
 
-func (c *Client) protoToEntCatalog(protoCatalog *entpb.Catalog) *ent.Catalog {
+func (c *Client) protoToEntCatalog(protoCatalog *catalog_pbuf.Catalog) *ent.Catalog {
 	if protoCatalog == nil {
 		return &ent.Catalog{}
 	}

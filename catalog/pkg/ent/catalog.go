@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/abisalde/gprc-microservice/catalog/pkg/ent/catalog"
+	"github.com/abisalde/grpc-microservice/catalog/pkg/ent/catalog"
 	"github.com/google/uuid"
 )
 

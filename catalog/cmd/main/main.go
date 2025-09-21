@@ -25,8 +25,8 @@ func setupElasticSearch() (*es.ElasticClient, error) {
 		return nil, err
 	}
 
-	ctx := context.Background()
-
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
 	if err := elastic.HealthCheck(ctx); err != nil {
 		elastic.Close()
 		return nil, err

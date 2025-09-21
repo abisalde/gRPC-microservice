@@ -16,15 +16,13 @@ func setupDatabase() (*database.Database, error) {
 	if err != nil {
 		return nil, err
 	}
-	ctx := context.Background()
 
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
 	if err := db.HealthCheck(ctx); err != nil {
 		db.Close()
 		return nil, err
 	}
-
-	_, cancel := context.WithTimeout(ctx, 5*time.Second)
-	defer cancel()
 
 	return db, nil
 }
@@ -40,5 +38,7 @@ func main() {
 	r := repository.NewUserRepository(db.Client)
 
 	s := service.NewUserService(r)
-	auth_entropy.ListenGRPC(s, db)
+	if err := auth_entropy.ListenGRPC(s, db); err != nil {
+		log.Fatalf("❌ Failed to start AUTH gRPC server: %v", err)
+	}
 }

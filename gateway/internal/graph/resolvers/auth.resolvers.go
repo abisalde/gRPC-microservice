@@ -14,7 +14,6 @@ import (
 )
 
 // Register is the resolver for the register field.
-// Register is the resolver for the register field.
 func (r *mutationResolver) Register(ctx context.Context, input model.RegisterInput) (*model.RegisterResponse, error) {
 	if input.Email == "" || input.Password == "" {
 		return nil, fmt.Errorf("email and password are required")
@@ -32,15 +31,13 @@ func (r *mutationResolver) Register(ctx context.Context, input model.RegisterInp
 	})
 
 	if err != nil {
-		return nil, err // ← Return the error directly instead of empty response
+		return nil, err
 	}
 
-	// Handle case where user might be nil
 	if user == nil {
 		return nil, fmt.Errorf("auth service returned nil user")
 	}
 
-	// Safely handle potentially empty/nil fields
 	var name *string
 	if user.FirstName != "" {
 		name = &user.FirstName

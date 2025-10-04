@@ -39,7 +39,7 @@ require (
 require (
 	ariga.io/atlas v0.36.1 // indirect
 	entgo.io/contrib v0.7.0
-	github.com/99designs/gqlgen v0.17.79
+	github.com/99designs/gqlgen v0.17.81
 	github.com/agext/levenshtein v1.2.3 // indirect
 	github.com/apparentlymart/go-textseg/v15 v15.0.0 // indirect
 	github.com/bmatcuk/doublestar v1.3.4 // indirect

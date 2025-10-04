@@ -19,7 +19,7 @@ type HealthResponse struct {
 }
 
 func healthHandler(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/health" {
+	if r.URL.Path != "/healths" {
 		http.NotFound(w, r)
 		return
 	}
@@ -45,8 +45,8 @@ func healthHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 
-	authURL := "grpc-microservice-auth:50051"
-	catalogURL := "grpc-microservice-catalog:50052"
+	authURL := "auth-service:50051"
+	catalogURL := "catalog-service:50052"
 
 	resolvers, err := resolvers.NewResolverGraphServer(authURL, catalogURL)
 

@@ -4,7 +4,7 @@ tmp_dir = "/app/catalog/tmp"
 
 [build]
   bin = "/app/catalog/tmp/main"
-  cmd = "go build -o /app/catalog/tmp/main ./cmd/main/main.go"
+  cmd = "go build -o /app/catalog/tmp/main ./catalog/cmd/main/main.go"
   delay = 1000
   exclude_dir = ["assets", "tmp", "vendor", "scripts", "migrations"]
   exclude_file = []

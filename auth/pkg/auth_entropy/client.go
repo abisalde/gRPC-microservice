@@ -2,7 +2,6 @@ package auth_entropy
 
 import (
 	"context"
-	"log"
 
 	"github.com/abisalde/grpc-microservice/auth/pkg/ent/proto/auth_pbuf"
 	"google.golang.org/grpc"
@@ -37,11 +36,9 @@ func (c *Client) GetUserByID(ctx context.Context, id int64) (*auth_pbuf.User, er
 }
 
 func (c *Client) CreateUser(ctx context.Context, user *auth_pbuf.User) (*auth_pbuf.User, error) {
-	log.Print("✅ I made it here")
 	return c.service.Create(ctx, &auth_pbuf.CreateUserRequest{User: user})
 }
 
 func (c *Client) GetUserByEmail(ctx context.Context, email string) (*auth_pbuf.User, error) {
-	// return c.userClient.Get(ctx, &entpb.GetUserRequest{})
 	return nil, nil
 }

@@ -3,22 +3,28 @@ services:
     build:
       context: .
       dockerfile: auth/deployments/app.dockerfile
+    container_name: auth-service
+    hostname: auth-service
     depends_on:
       auth_db:
         condition: service_healthy
     environment:
       ENVIRONMENT: development
-      AIR_WORKSPACE: /app
+      AIR_WORKSPACE: /app/auth
     ports:
-      - '50051:50051'
+      - "50051:50051"
+    volumes:
+      - ./:/app/auth
+      - ./auth/deployments/air.toml:/app/auth/.air.toml
+      - go-mod:/go/pkg/mod
     healthcheck:
       test:
         [
-          'CMD',
-          'grpcurl',
-          '-plaintext',
-          'localhost:50051',
-          'grpc.health.v1.Health/Check',
+          "CMD",
+          "grpcurl",
+          "-plaintext",
+          "localhost:50051",
+          "grpc.health.v1.Health/Check",
         ]
       interval: 10s
       timeout: 5s
@@ -30,22 +36,28 @@ services:
     build:
       context: .
       dockerfile: catalog/deployments/app.dockerfile
+    container_name: catalog-service
+    hostname: catalog-service
     depends_on:
       catalog_db:
         condition: service_healthy
     environment:
       ENVIRONMENT: development
-      AIR_WORKSPACE: /app
+      AIR_WORKSPACE: /app/catalog
+    volumes:
+      - ./:/app/catalog
+      - ./catalog/deployments/air.toml:/app/catalog/.air.toml
+      - go-mod:/go/pkg/mod
     ports:
-      - '50052:50052'
+      - "50052:50052"
     healthcheck:
       test:
         [
-          'CMD',
-          'grpcurl',
-          '-plaintext',
-          'localhost:50052',
-          'grpc.health.v1.Health/Check',
+          "CMD",
+          "grpcurl",
+          "-plaintext",
+          "localhost:50052",
+          "grpc.health.v1.Health/Check",
         ]
       interval: 10s
       timeout: 5s
@@ -57,6 +69,8 @@ services:
     build:
       context: .
       dockerfile: gateway/deployments/app.dockerfile
+    container_name: gateway-service
+    hostname: gateway-service
     depends_on:
       auth:
         condition: service_healthy
@@ -66,12 +80,16 @@ services:
       AUTH_SERVICE_URL: auth:50051
       CATALOG_SERVICE_URL: catalog:50052
       ENVIRONMENT: development
-      AIR_WORKSPACE: /app
+      AIR_WORKSPACE: /app/gateway
+    volumes:
+      - ./:/app/gateway
+      - ./gateway/deployments/air.toml:/app/gateway/.air.toml
+      - go-mod:/go/pkg/mod
     restart: on-failure
     ports:
-      - '8080:8080'
+      - "8080:8080"
     healthcheck:
-      test: ['CMD', 'curl', '-f', 'http://localhost:8080/health']
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -81,20 +99,22 @@ services:
     build:
       context: .
       dockerfile: auth/deployments/db.dockerfile
+    container_name: auth_db-service
+    hostname: auth_db-service
     environment:
       POSTGRES_USER: microservice-user
       POSTGRES_PASSWORD: Password123
       POSTGRES_DB: microservice
     ports:
-      - '5432:5432'
+      - "5432:5432"
     restart: unless-stopped
     volumes:
       - auth_db_data:/var/lib/postgres/data
     healthcheck:
       test:
         [
-          'CMD-SHELL',
-          'pg_isready -U microservice-user -d microservice || exit 1',
+          "CMD-SHELL",
+          "pg_isready -U microservice-user -d microservice || exit 1",
         ]
       interval: 10s
       timeout: 5s
@@ -103,7 +123,8 @@ services:
 
   catalog_db:
     image: docker.elastic.co/elasticsearch/elasticsearch:9.1.3
-    container_name: catalog_db
+    container_name: catalog_db-service
+    hostname: catalog_db-service
     environment:
       discovery.type: single-node
       xpack.security.enabled: false
@@ -111,15 +132,15 @@ services:
       cluster.name: catalog-cluster
       node.name: catalog-node
     ports:
-      - '9200:9200'
-      - '9300:9300'
+      - "9200:9200"
+      - "9300:9300"
     volumes:
       - catalog_db_data:/usr/share/elasticsearch/data
     healthcheck:
       test:
         [
-          'CMD-SHELL',
-          'curl -s -f http://localhost:9200/_cluster/health || exit 1',
+          "CMD-SHELL",
+          "curl -s -f http://localhost:9200/_cluster/health || exit 1",
         ]
       interval: 30s
       timeout: 10s

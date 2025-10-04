@@ -19,7 +19,7 @@ type HealthResponse struct {
 }
 
 func healthHandler(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/healths" {
+	if r.URL.Path != "/healthz" {
 		http.NotFound(w, r)
 		return
 	}
@@ -54,7 +54,7 @@ func main() {
 		log.Fatalf("❌ Failed to setup all client 🎛️: %v", err)
 	}
 
-	http.HandleFunc("/health", healthHandler)
+	http.HandleFunc("/healthz", healthHandler)
 
 	gqlSrv, port := server.SetupGraphQLServer(resolvers)
 

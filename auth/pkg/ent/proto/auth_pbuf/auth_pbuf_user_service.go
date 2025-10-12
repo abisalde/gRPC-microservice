@@ -4,14 +4,10 @@ package auth_pbuf
 import (
 	context "context"
 	base64 "encoding/base64"
-	fmt "fmt"
-	regexp "regexp"
-	strconv "strconv"
-	strings "strings"
-
 	entproto "entgo.io/contrib/entproto"
 	runtime "entgo.io/contrib/entproto/runtime"
 	sqlgraph "entgo.io/ent/dialect/sql/sqlgraph"
+	fmt "fmt"
 	ent "github.com/abisalde/grpc-microservice/auth/pkg/ent"
 	user "github.com/abisalde/grpc-microservice/auth/pkg/ent/user"
 	codes "google.golang.org/grpc/codes"
@@ -19,6 +15,9 @@ import (
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
+	regexp "regexp"
+	strconv "strconv"
+	strings "strings"
 )
 
 // UserService implements UserServiceServer

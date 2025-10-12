@@ -4,11 +4,10 @@ package catalog_pbuf
 import (
 	context "context"
 	base64 "encoding/base64"
-	fmt "fmt"
-
 	entproto "entgo.io/contrib/entproto"
 	runtime "entgo.io/contrib/entproto/runtime"
 	sqlgraph "entgo.io/ent/dialect/sql/sqlgraph"
+	fmt "fmt"
 	ent "github.com/abisalde/grpc-microservice/catalog/pkg/ent"
 	catalog "github.com/abisalde/grpc-microservice/catalog/pkg/ent/catalog"
 	uuid "github.com/google/uuid"

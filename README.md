@@ -1,2 +1,3 @@
-# gprc-microservice
-gPRC test
+# gRPC Microservice
+
+Testing standalone gRPC structures
